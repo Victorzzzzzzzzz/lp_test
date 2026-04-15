@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>CoinW S1 · 视频无遮挡版</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body, html {
+            height: 100%;
+            width: 100%;
+            overflow: hidden;
+            font-family: 'PingFang SC', 'Microsoft YaHei', sans-serif;
+        }
+
+        .container {
+            display: flex;
+            width: 100%;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        /* 左侧视频区域 - 完全纯净，没有任何遮挡 */
+        .video-section {
+            position: relative;
+            flex: 1.2;
+            background: #000;
+            overflow: hidden;
+        }
+
+        .bg-video {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 1;
+            z-index: 1;
+        }
+
+        /* 右侧区域：文案 + 注册表单（表单放在这里，不遮挡视频） */
+        .right-section {
+            flex: 0.8;
+            background: #FEFCF5;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 40px 50px;
+            position: relative;
+            overflow-y: auto;
+        }
+
+        .right-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 6px;
+            height: 100%;
+            background: linear-gradient(180deg, #FFD700, #FFA500);
+        }
+
+        .main-slogan {
+            font-size: 52px;
+            font-weight: 800;
+            line-height: 1.2;
+            margin-bottom: 20px;
+            background: linear-gradient(145deg, #1F1F1F 20%, #FFB800 100%);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+        }
+
+        .sub-slogan {
+            font-size: 24px;
+            font-weight: 500;
+            color: #2C2C2C;
+            border-left: 4px solid #FFD700;
+            padding-left: 20px;
+            margin-bottom: 30px;
+        }
+
+        .sub-slogan strong {
+            color: #F5A623;
+            font-weight: 800;
+        }
+
+        .prize-badge {
+            background: #FFE9C7;
+            border-radius: 50px;
+            padding: 10px 18px;
+            font-weight: 600;
+            font-size: 14px;
+            color: #A66600;
+            width: fit-content;
+            margin-bottom: 40px;
+        }
+
+        /* 注册表单 - 现在在右侧区域内，不遮挡视频 */
+        .register-card {
+            background: #ffffff;
+            border-radius: 28px;
+            padding: 32px 28px;
+            box-shadow: 0 20px 35px rgba(0, 0, 0, 0.08);
+            border: 1px solid #f0e6d0;
+            margin-top: 10px;
+        }
+
+        .register-title {
+            font-size: 26px;
+            font-weight: 700;
+            color: #1a1a1a;
+            margin-bottom: 24px;
+        }
+
+        .register-title span {
+            background: linear-gradient(135deg, #FFD700, #F5A623);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+        }
+
+        .input-group {
+            margin-bottom: 20px;
+        }
+
+        .input-group label {
+            display: block;
+            font-size: 13px;
+            font-weight: 600;
+            color: #555;
+            margin-bottom: 8px;
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: 14px 18px;
+            background: #f8f8f8;
+            border: 1px solid #e8e8e8;
+            border-radius: 16px;
+            font-size: 16px;
+            color: #1a1a1a;
+            outline: none;
+            transition: all 0.2s;
+        }
+
+        .input-group input:focus {
+            border-color: #FFD700;
+            background: #fff;
+            box-shadow: 0 0 0 3px rgba(255, 209, 0, 0.2);
+        }
+
+        .input-group input::placeholder {
+            color: #bbb;
+        }
+
+        .btn-create {
+            width: 100%;
+            background: linear-gradient(105deg, #FFD700 0%, #F7B42C 100%);
+            border: none;
+            padding: 15px;
+            border-radius: 40px;
+            font-weight: 700;
+            font-size: 18px;
+            color: #0A0A0A;
+            cursor: pointer;
+            margin-top: 10px;
+            transition: all 0.25s;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .btn-create:hover {
+            transform: translateY(-2px);
+            background: linear-gradient(105deg, #FFE033 0%, #FFC107 100%);
+            box-shadow: 0 8px 18px rgba(0, 0, 0, 0.15);
+        }
+
+        .legal-note {
+            font-size: 11px;
+            text-align: center;
+            color: #aaa;
+            margin-top: 20px;
+        }
+
+        .legal-note a {
+            color: #F5A623;
+            text-decoration: none;
+        }
+
+        /* 顶部logo - 放在视频左上角，不遮挡视频主体内容 */
+        .global-logo {
+            position: absolute;
+            top: 28px;
+            left: 32px;
+            z-index: 30;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(8px);
+            padding: 8px 20px 8px 16px;
+            border-radius: 60px;
+            border: 1px solid rgba(255, 215, 0, 0.5);
+        }
+
+        .global-logo img {
+            width: 28px;
+            height: 28px;
+        }
+
+        .global-logo span {
+            font-size: 22px;
+            font-weight: 800;
+            color: #FFD966;
+        }
+
+        /* 响应式 */
+        @media (max-width: 1024px) {
+            .container { flex-direction: column; }
+            .video-section, .right-section { flex: auto; height: 50vh; }
+            .video-section { min-height: 40vh; }
+            .right-section { 
+                padding: 30px 30px;
+                overflow-y: auto;
+            }
+            .main-slogan { font-size: 40px; }
+            .sub-slogan { font-size: 20px; }
+            .register-card { padding: 24px 20px; }
+        }
+
+        @media (max-width: 640px) {
+            .main-slogan { font-size: 32px; }
+            .sub-slogan { font-size: 16px; }
+            .register-title { font-size: 22px; }
+            .right-section { padding: 24px 20px; }
+            .global-logo { top: 16px; left: 16px; padding: 6px 14px; }
+            .global-logo span { font-size: 18px; }
+            .btn-create { font-size: 16px; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="global-logo">
+    <img src="https://www.coinw.com/favicon.ico" alt="CoinW" onerror="this.src='https://placehold.co/28x28?text=CW'">
+    <span>CoinW</span>
+</div>
+
+<div class="container">
+    <!-- 左侧：纯视频区域，没有任何表单遮挡 -->
+    <div class="video-section">
+        <video class="bg-video" autoplay muted loop playsinline disablePictureInPicture>
+            <source src="https://cdn.cabcx.com/activity/cw56570/banner-web.mp4" type="video/mp4">
+            您的浏览器不支持视频播放
+        </video>
+    </div>
+
+    <!-- 右侧：文案 + 注册表单（表单完全移出视频区域） -->
+    <div class="right-section">
+        <h1 class="main-slogan">S1 名由己争</h1>
+        <p class="sub-slogan">
+            🏆 1,200,000 <strong>USDT</strong> 奖池<br>
+            上场见分晓 · 锋芒即荣耀
+        </p>
+        <div class="prize-badge">
+            ⚡ S1赛季专属｜交易排名瓜分奖池
+        </div>
+
+        <!-- 注册表单放在右侧，完全不遮挡视频 -->
+        <div class="register-card">
+            <div class="register-title">注册 <span>CoinW</span> 账户</div>
+            <div class="input-group">
+                <label>📧 电子邮箱</label>
+                <input type="email" id="emailInput" placeholder="your@email.com" autocomplete="email">
+            </div>
+            <button class="btn-create" id="registerBtn">⚡ 立即开启交易</button>
+            <div class="legal-note">
+                注册即表示同意 CoinW <a href="#">服务条款</a> | S1活动规则
+            </div>
+        </div>
+        
+        <div style="margin-top: 20px; font-size: 12px; color: #bbaa88; text-align: center;">
+            *活动最终解释权归CoinW所有
+        </div>
+    </div>
+</div>
+
+<script>
+    (function() {
+        const emailInput = document.getElementById('emailInput');
+        const registerBtn = document.getElementById('registerBtn');
+
+        function isValidEmail(email) {
+            const re = /^[^\s@]+@([^\s@]+\.)+[^\s@]+$/;
+            return re.test(email.trim());
+        }
+
+        function showMessage(msg, isError = true) {
+            const existingToast = document.querySelector('.custom-toast');
+            if (existingToast) existingToast.remove();
+
+            const toast = document.createElement('div');
+            toast.className = 'custom-toast';
+            toast.innerText = msg;
+            toast.style.position = 'fixed';
+            toast.style.bottom = '30px';
+            toast.style.left = '50%';
+            toast.style.transform = 'translateX(-50%)';
+            toast.style.backgroundColor = isError ? 'rgba(0,0,0,0.85)' : '#FFD700';
+            toast.style.color = isError ? '#FFE484' : '#000';
+            toast.style.padding = '12px 24px';
+            toast.style.borderRadius = '40px';
+            toast.style.fontSize = '14px';
+            toast.style.fontWeight = '500';
+            toast.style.zIndex = '9999';
+            toast.style.backdropFilter = 'blur(12px)';
+            toast.style.fontFamily = 'inherit';
+            toast.style.whiteSpace = 'nowrap';
+            document.body.appendChild(toast);
+
+            setTimeout(() => {
+                if (toast && toast.remove) toast.remove();
+            }, 2800);
+        }
+
+        function handleRegister() {
+            const email = emailInput.value.trim();
+            
+            if (!email) {
+                showMessage('📧 请输入邮箱地址参与S1争夺', true);
+                emailInput.focus();
+                return;
+            }
+            
+            if (!isValidEmail(email)) {
+                showMessage('❌ 邮箱格式无效，请填写正确邮箱', true);
+                emailInput.focus();
+                return;
+            }
+
+            showMessage(`✅ 欢迎加入S1赛季！120万USDT奖池已解锁`, false);
+            console.log(`[CoinW S1] 注册尝试 | 邮箱: ${email}`);
+            
+            setTimeout(() => {
+                const continuePrompt = confirm("演示环境：注册信息已验证（前端模拟）\n正式环境将发送验证邮件并完成开户\n点击确定体验S1活动氛围");
+                if (continuePrompt) {
+                    window.open('https://www.coinw.com/activity/s1', '_blank');
+                }
+            }, 800);
+        }
+
+        registerBtn.addEventListener('click', handleRegister);
+        
+        emailInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                handleRegister();
+            }
+        });
+
+        const videoElem = document.querySelector('.bg-video');
+        if (videoElem) {
+            videoElem.addEventListener('error', () => {
+                const videoSection = document.querySelector('.video-section');
+                if (videoSection) {
+                    videoSection.style.background = 'linear-gradient(135deg, #0a0a1a, #001133)';
+                }
+            });
+        }
+    })();
+</script>
+</body>
+</html>
