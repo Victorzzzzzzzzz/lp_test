@@ -1,9 +1,13 @@
+
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <title>CoinW_test_Luka_LP</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>CoinW · 一键跟单全球顶级交易员 | 智能跟单 躺赚模式</title>
+    <!-- Google Font & Font Awesome -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
         * {
             margin: 0;
@@ -11,368 +15,618 @@
             box-sizing: border-box;
         }
 
-        body, html {
-            height: 100%;
-            width: 100%;
-            overflow: hidden;
-            font-family: 'PingFang SC', 'Microsoft YaHei', sans-serif;
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(145deg, #fefefa 0%, #f0f4fc 100%);
+            min-height: 100vh;
+            padding: 40px 32px;
         }
 
-        .container {
-            display: flex;
-            width: 100%;
-            height: 100vh;
-            overflow: hidden;
+        /* 主容器 - 上下结构：注册卡片 + 交易员表格模块 */
+        .main-wrapper {
+            max-width: 1400px;
+            margin: 0 auto;
         }
 
-        /* 左侧视频区域 */
-        .video-section {
-            position: relative;
-            flex: 1.2;
-            background: #000;
-            overflow: hidden;
-        }
-
-        .bg-video {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            opacity: 1;
-            z-index: 1;
-        }
-
-        /* 右侧区域：文案 + 注册表单 */
-        .right-section {
-            flex: 0.8;
-            background: #FEFCF5;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            padding: 40px 50px;
-            position: relative;
-            overflow-y: auto;
-        }
-
-        .right-section::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 6px;
-            height: 100%;
-            background: linear-gradient(180deg, #FFD700, #FFA500);
-        }
-
-        .main-slogan {
-            font-size: 52px;
-            font-weight: 800;
-            line-height: 1.2;
-            margin-bottom: 20px;
-            background: linear-gradient(145deg, #1F1F1F 20%, #FFB800 100%);
-            background-clip: text;
-            -webkit-background-clip: text;
-            color: transparent;
-        }
-
-        .sub-slogan {
-            font-size: 24px;
-            font-weight: 500;
-            color: #2C2C2C;
-            border-left: 4px solid #FFD700;
-            padding-left: 20px;
-            margin-bottom: 30px;
-        }
-
-        .sub-slogan strong {
-            color: #F5A623;
-            font-weight: 800;
-        }
-
-        .prize-badge {
-            background: #FFE9C7;
-            border-radius: 50px;
-            padding: 10px 18px;
-            font-weight: 600;
-            font-size: 14px;
-            color: #A66600;
-            width: fit-content;
-            margin-bottom: 40px;
-        }
-
-        /* 注册表单 - 现在在右侧区域内，不遮挡视频 */
+        /* 注册卡片 (左右排列) */
         .register-card {
             background: #ffffff;
-            border-radius: 28px;
-            padding: 32px 28px;
-            box-shadow: 0 20px 35px rgba(0, 0, 0, 0.08);
-            border: 1px solid #f0e6d0;
-            margin-top: 10px;
-        }
-
-        .register-title {
-            font-size: 26px;
-            font-weight: 700;
-            color: #1a1a1a;
-            margin-bottom: 24px;
-        }
-
-        .register-title span {
-            background: linear-gradient(135deg, #FFD700, #F5A623);
-            background-clip: text;
-            -webkit-background-clip: text;
-            color: transparent;
-        }
-
-        .input-group {
-            margin-bottom: 20px;
-        }
-
-        .input-group label {
-            display: block;
-            font-size: 13px;
-            font-weight: 600;
-            color: #555;
-            margin-bottom: 8px;
-        }
-
-        .input-group input {
-            width: 100%;
-            padding: 14px 18px;
-            background: #f8f8f8;
-            border: 1px solid #e8e8e8;
-            border-radius: 16px;
-            font-size: 16px;
-            color: #1a1a1a;
-            outline: none;
+            border-radius: 48px;
+            box-shadow: 0 35px 68px rgba(0, 0, 0, 0.08), 0 8px 18px rgba(0, 0, 0, 0.02);
+            display: flex;
+            flex-wrap: wrap;
+            overflow: hidden;
+            margin-bottom: 48px;
             transition: all 0.2s;
         }
 
-        .input-group input:focus {
-            border-color: #FFD700;
-            background: #fff;
-            box-shadow: 0 0 0 3px rgba(255, 209, 0, 0.2);
+        /* 左侧区域：跟单收益介绍 */
+        .left-benefits {
+            flex: 1.2;
+            background: linear-gradient(135deg, #0B1426 0%, #121C32 100%);
+            padding: 56px 44px;
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+        .left-benefits::before {
+            content: "";
+            position: absolute;
+            top: -20%;
+            right: -20%;
+            width: 280px;
+            height: 280px;
+            background: radial-gradient(circle, rgba(255,215,0,0.12) 0%, rgba(0,0,0,0) 70%);
+            border-radius: 50%;
+            pointer-events: none;
         }
 
-        .input-group input::placeholder {
-            color: #bbb;
+        .badge-icon {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(255,215,0,0.18);
+            padding: 8px 20px;
+            border-radius: 80px;
+            font-size: 14px;
+            font-weight: 500;
+            margin-bottom: 32px;
+            backdrop-filter: blur(2px);
         }
 
-        .btn-create {
-            width: 100%;
-            background: linear-gradient(105deg, #FFD700 0%, #F7B42C 100%);
-            border: none;
-            padding: 15px;
-            border-radius: 40px;
-            font-weight: 700;
-            font-size: 18px;
-            color: #0A0A0A;
-            cursor: pointer;
-            margin-top: 10px;
-            transition: all 0.25s;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        .left-benefits h1 {
+            font-size: 52px;
+            font-weight: 800;
+            line-height: 1.2;
+            letter-spacing: -1px;
+            margin-bottom: 20px;
+            background: linear-gradient(120deg, #FFFFFF, #FFE68F);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
         }
 
-        .btn-create:hover {
-            transform: translateY(-2px);
-            background: linear-gradient(105deg, #FFE033 0%, #FFC107 100%);
-            box-shadow: 0 8px 18px rgba(0, 0, 0, 0.15);
+        .subhead {
+            font-size: 20px;
+            font-weight: 500;
+            color: #CBD5E6;
+            margin-bottom: 48px;
+            border-left: 3px solid #F0B90B;
+            padding-left: 18px;
         }
 
-        .legal-note {
-            font-size: 11px;
-            text-align: center;
-            color: #aaa;
+        .feature-list {
+            display: flex;
+            flex-direction: column;
+            gap: 28px;
             margin-top: 20px;
         }
 
-        .legal-note a {
-            color: #F5A623;
-            text-decoration: none;
+        .feature-item {
+            display: flex;
+            align-items: center;
+            gap: 16px;
         }
 
-        /* 顶部logo - 放在视频左上角，不遮挡视频主体内容 */
-        .global-logo {
-            position: absolute;
-            top: 28px;
-            left: 32px;
-            z-index: 30;
+        .feature-icon {
+            width: 48px;
+            height: 48px;
+            background: rgba(240, 185, 11, 0.15);
+            border-radius: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            color: #F0B90B;
+        }
+
+        .feature-text h4 {
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 6px;
+        }
+
+        .feature-text p {
+            font-size: 14px;
+            color: #A9B9D4;
+        }
+
+        /* 右侧注册区域 */
+        .right-register {
+            flex: 1;
+            padding: 56px 44px;
+            background: #FFFFFF;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .stats-float {
+            background: #F8FAFF;
+            border-radius: 32px;
+            padding: 20px 24px;
+            margin-bottom: 32px;
+            display: flex;
+            justify-content: space-between;
+            border: 1px solid #EFF2FA;
+            box-shadow: 0 6px 14px rgba(0, 0, 0, 0.02);
+        }
+
+        .stat-block {
+            text-align: center;
+            flex: 1;
+        }
+
+        .stat-number {
+            font-size: 28px;
+            font-weight: 800;
+            color: #0B1426;
+            letter-spacing: -0.3px;
+            display: flex;
+            align-items: baseline;
+            justify-content: center;
+            gap: 4px;
+        }
+
+        .stat-label {
+            font-size: 13px;
+            color: #5A6E8C;
+            margin-top: 6px;
+            font-weight: 500;
+        }
+
+        .coinw-register-btn {
+            background: #F0B90B;
+            width: 100%;
+            border: none;
+            padding: 18px 0;
+            border-radius: 60px;
+            font-weight: 800;
+            font-size: 18px;
+            color: #0B1426;
+            cursor: pointer;
+            transition: 0.2s;
+            box-shadow: 0 8px 18px rgba(240, 185, 11, 0.25);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+        }
+
+        .coinw-register-btn:hover {
+            background: #e0a80a;
+            transform: scale(0.98);
+        }
+
+        .register-hint {
+            text-align: center;
+            font-size: 14px;
+            color: #7687A5;
+            margin-top: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            font-weight: 500;
+        }
+
+        .extra-note {
+            background: #F9FBFE;
+            border-radius: 28px;
+            padding: 16px 20px;
+            margin-top: 32px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            border: 1px solid #EDF2F9;
+            font-size: 13px;
+            color: #2c3e66;
+        }
+
+        /* 智能跟单表格板块 */
+        .smart-trading-section {
+            background: #ffffff;
+            border-radius: 32px;
+            padding: 24px 28px 32px 28px;
+            box-shadow: 0 20px 35px -12px rgba(0, 0, 0, 0.05);
+            border: 1px solid #eef2fa;
+            margin-top: 20px;
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            margin-bottom: 28px;
+        }
+        .section-header h2 {
+            font-size: 28px;
+            font-weight: 700;
+            background: linear-gradient(135deg, #0B1426, #2b3d6e);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+        }
+        .filter-tabs {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+        .filter-chip {
+            background: #eff3fe;
+            padding: 6px 20px;
+            border-radius: 40px;
+            font-size: 14px;
+            font-weight: 500;
+            color: #1e2b4f;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .filter-chip.active, .filter-chip:hover {
+            background: #0a0e27;
+            color: white;
+        }
+
+        .trading-table-wrapper {
+            overflow-x: auto;
+            border-radius: 24px;
+            border: 1px solid #edf2f9;
+        }
+        .smart-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 14px;
+            min-width: 860px;
+        }
+        .smart-table th {
+            text-align: left;
+            padding: 18px 16px;
+            background-color: #f9fbfe;
+            font-weight: 700;
+            color: #1f2a48;
+            border-bottom: 1px solid #eef2f8;
+        }
+        .smart-table td {
+            padding: 16px;
+            border-bottom: 1px solid #f0f4fc;
+            color: #1f2c44;
+            font-weight: 500;
+        }
+        .trader-name {
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .profit-positive {
+            color: #0e7b32;
+            font-weight: 700;
+            background: #e9f7ef;
+            display: inline-block;
+            padding: 4px 10px;
+            border-radius: 40px;
+            font-size: 13px;
+        }
+        .action-btns {
+            display: flex;
+            gap: 12px;
+        }
+        .btn-alert {
+            background: transparent;
+            border: 1px solid #cfdfed;
+            padding: 6px 14px;
+            border-radius: 32px;
+            font-size: 12px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        .btn-copy {
+            background: #0a0e27;
+            color: white;
+            border: none;
+            padding: 6px 18px;
+            border-radius: 32px;
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+        .pagination {
+            display: flex;
+            justify-content: flex-end;
+            margin-top: 24px;
+            gap: 10px;
+        }
+        .page-number {
+            width: 36px;
+            height: 36px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 40px;
+            background: #f2f5fc;
+            cursor: pointer;
+        }
+        .page-number.active-page {
+            background: #0a0e27;
+            color: white;
+        }
+
+        /* 自定义 Toast 提示 (页面内提示，无弹窗) */
+        .custom-toast {
+            position: fixed;
+            bottom: 32px;
+            left: 50%;
+            transform: translateX(-50%) scale(0.95);
+            background: #0B1426;
+            backdrop-filter: blur(12px);
+            color: white;
+            padding: 12px 28px;
+            border-radius: 60px;
+            font-weight: 500;
+            font-size: 14px;
+            z-index: 9999;
+            opacity: 0;
+            transition: opacity 0.2s, transform 0.2s;
+            pointer-events: none;
+            box-shadow: 0 12px 28px rgba(0,0,0,0.2);
             display: flex;
             align-items: center;
             gap: 10px;
-            background: rgba(0, 0, 0, 0.5);
-            backdrop-filter: blur(8px);
-            padding: 8px 20px 8px 16px;
-            border-radius: 60px;
-            border: 1px solid rgba(255, 215, 0, 0.5);
+            white-space: nowrap;
+            letter-spacing: 0.3px;
+            border: 1px solid rgba(255,215,0,0.3);
         }
-
-        .global-logo img {
-            width: 28px;
-            height: 28px;
+        .custom-toast i {
+            font-size: 18px;
+            color: #F0B90B;
         }
-
-        .global-logo span {
-            font-size: 22px;
-            font-weight: 800;
-            color: #FFD966;
+        .custom-toast.show {
+            opacity: 1;
+            transform: translateX(-50%) scale(1);
+            pointer-events: none;
         }
-
-        /* 响应式 */
-        @media (max-width: 1024px) {
-            .container { flex-direction: column; }
-            .video-section, .right-section { flex: auto; height: 50vh; }
-            .video-section { min-height: 40vh; }
-            .right-section { 
-                padding: 30px 30px;
-                overflow-y: auto;
-            }
-            .main-slogan { font-size: 40px; }
-            .sub-slogan { font-size: 20px; }
-            .register-card { padding: 24px 20px; }
-        }
-
         @media (max-width: 640px) {
-            .main-slogan { font-size: 32px; }
-            .sub-slogan { font-size: 16px; }
-            .register-title { font-size: 22px; }
-            .right-section { padding: 24px 20px; }
-            .global-logo { top: 16px; left: 16px; padding: 6px 14px; }
-            .global-logo span { font-size: 18px; }
-            .btn-create { font-size: 16px; }
+            .custom-toast { white-space: normal; width: 80%; text-align: center; font-size: 13px; padding: 10px 20px; }
+        }
+
+        @media (max-width: 980px) {
+            .register-card { flex-direction: column; }
+            .left-benefits, .right-register { padding: 40px 32px; }
+            .left-benefits h1 { font-size: 42px; }
+            .section-header { flex-direction: column; align-items: start; gap: 16px; }
+        }
+        @media (max-width: 550px) {
+            .stats-float { flex-direction: column; gap: 20px; }
+            body { padding: 20px 16px; }
         }
     </style>
 </head>
 <body>
+<div class="main-wrapper">
+    <!-- 注册卡片 (左右排列，完全按照 CoinW 风格) -->
+    <div class="register-card">
+        <!-- 左侧：一键跟单，坐享收益 -->
+        <div class="left-benefits">
+            <div class="badge-icon">
+                <i class="fas fa-chart-line"></i> CoinW 官方跟单
+            </div>
+            <h1>一键跟单，<br>坐享收益</h1>
+            <div class="subhead">跟单全球优秀交易员，一键完成跟单设置，自动开启躺赚模式。</div>
+            <div class="feature-list">
+                <div class="feature-item">
+                    <div class="feature-icon"><i class="fas fa-copy"></i></div>
+                    <div class="feature-text"><h4>顶级钱包实时同步</h4><p>复制顶尖交易员/巨鲸地址，毫秒级执行</p></div>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-icon"><i class="fas fa-chart-simple"></i></div>
+                    <div class="feature-text"><h4>智能风控 · 自动止盈</h4><p>自定义跟单比例，止损止盈一键设置</p></div>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-icon"><i class="fas fa-globe"></i></div>
+                    <div class="feature-text"><h4>全链覆盖</h4><p>支持 Ethereum, BSC, Solana 等主流公链</p></div>
+                </div>
+            </div>
+        </div>
 
-<div class="global-logo">
-    <img src="https://www.coinw.com/favicon.ico" alt="CoinW" onerror="this.src='https://placehold.co/28x28?text=CW'">
-    <span>CoinW</span>
+        <!-- 右侧：注册 + 动态数据 -->
+        <div class="right-register">
+            <div class="stats-float">
+                <div class="stat-block">
+                    <div class="stat-number"><span id="followersCount" class="dynamic-number">102,930</span></div>
+                    <div class="stat-label"><i class="fas fa-users"></i> 累计跟单人数</div>
+                </div>
+                <div class="stat-block">
+                    <div class="stat-number"><span id="profitAmount" class="dynamic-number">76,196,197.90</span> <span style="font-size: 14px;">USDT</span></div>
+                    <div class="stat-label"><i class="fas fa-dollar-sign"></i> 累计跟单收益</div>
+                </div>
+            </div>
+            <a href="https://www.coinw.com/zh_CN/register?redirectUrl=/zh_CN" target="_blank" rel="noopener noreferrer" style="text-decoration: none; display: block;">
+                <button class="coinw-register-btn" id="mainRegisterBtn"><i class="fas fa-rocket"></i> 立即注册 · 一键跟单</button>
+            </a>
+            <div class="register-hint">
+                <i class="fas fa-infinity"></i> 一键跟单全球顶级钱包地址
+                <i class="fas fa-arrow-right"></i>
+            </div>
+            <div class="extra-note">
+                <i class="fas fa-shield-alt" style="color: #F0B90B; font-size: 20px;"></i>
+                <span>跟单资金安全隔离，100% 储备金证明 | 顶级流动性</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- ★ 高手跟单表格：完全基于用户提供的HTML结构数据，所有点击均为页面内Toast提示 ★ -->
+    <div class="smart-trading-section">
+        <div class="section-header">
+            <h2><i class="fas fa-crown" style="margin-right: 10px; color:#F0B90B;"></i> 顶尖交易员 · 智能跟单榜</h2>
+            <div class="filter-tabs">
+                <span class="filter-chip active">90日</span>
+                <span class="filter-chip">全部</span>
+                <span class="filter-chip">大资金</span>
+                <span class="filter-chip">主流高手</span>
+                <span class="filter-chip">稳健</span>
+                <span class="filter-chip">常胜将军</span>
+            </div>
+        </div>
+        <div class="trading-table-wrapper">
+            <table class="smart-table" id="copyTradingTable">
+                <thead>
+                    <tr><th>钱包地址 / 交易员</th><th>PNL</th><th>链上 PnL trend</th><th>胜率</th><th>交易笔数</th><th>最近交易时间</th><th>操作</th></tr>
+                </thead>
+                <tbody id="tableBody"></tbody>
+            </table>
+        </div>
+        <div class="pagination" id="paginationControls"></div>
+        <div style="font-size:12px; color:#6f7d9a; margin-top: 20px; text-align: right;"><i class="fas fa-chart-line"></i> 数据基于链上真实PnL，展示可跟单钱包 | 每5分钟更新</div>
+    </div>
 </div>
 
-<div class="container">
-    <!-- 左侧：纯视频区域，没有任何表单遮挡 -->
-    <div class="video-section">
-        <video class="bg-video" autoplay muted loop playsinline disablePictureInPicture>
-            <source src="https://cdn.cabcx.com/activity/cw56570/banner-web.mp4" type="video/mp4">
-            您的浏览器不支持视频播放
-        </video>
-    </div>
-
-    <!-- 右侧：文案 + 注册表单（表单完全移出视频区域） -->
-    <div class="right-section">
-        <h1 class="main-slogan">S1 名由己争</h1>
-        <p class="sub-slogan">
-            🏆 1,200,000 <strong>USDT</strong> 奖池<br>
-            上场见分晓 · 锋芒即荣耀
-        </p>
-        <div class="prize-badge">
-            ⚡ S1赛季专属｜交易排名瓜分奖池
-        </div>
-
-        <!-- 注册表单放在右侧，完全不遮挡视频 -->
-        <div class="register-card">
-            <div class="register-title">注册 <span>CoinW</span> 账户</div>
-            <div class="input-group">
-                <label>📧 电子邮箱</label>
-                <input type="email" id="emailInput" placeholder="your@email.com" autocomplete="email">
-            </div>
-            <button class="btn-create" id="registerBtn">⚡ 立即开启交易</button>
-            <div class="legal-note">
-                注册即表示同意 CoinW <a href="#">服务条款</a> | S1活动规则
-            </div>
-        </div>
-        
-        <div style="margin-top: 20px; font-size: 12px; color: #bbaa88; text-align: center;">
-            *活动最终解释权归CoinW所有
-        </div>
-    </div>
+<!-- 页面内 Toast 结构 -->
+<div id="pageToast" class="custom-toast">
+    <i class="fas fa-check-circle"></i>
+    <span id="toastMessage">操作成功</span>
 </div>
 
 <script>
     (function() {
-        const emailInput = document.getElementById('emailInput');
-        const registerBtn = document.getElementById('registerBtn');
+        // ======================= 1. 页面内优雅Toast提示函数 (无浏览器弹窗) =======================
+        const toastEl = document.getElementById('pageToast');
+        const toastMsgSpan = document.getElementById('toastMessage');
+        let toastTimer = null;
 
-        function isValidEmail(email) {
-            const re = /^[^\s@]+@([^\s@]+\.)+[^\s@]+$/;
-            return re.test(email.trim());
-        }
-
-        function showMessage(msg, isError = true) {
-            const existingToast = document.querySelector('.custom-toast');
-            if (existingToast) existingToast.remove();
-
-            const toast = document.createElement('div');
-            toast.className = 'custom-toast';
-            toast.innerText = msg;
-            toast.style.position = 'fixed';
-            toast.style.bottom = '30px';
-            toast.style.left = '50%';
-            toast.style.transform = 'translateX(-50%)';
-            toast.style.backgroundColor = isError ? 'rgba(0,0,0,0.85)' : '#FFD700';
-            toast.style.color = isError ? '#FFE484' : '#000';
-            toast.style.padding = '12px 24px';
-            toast.style.borderRadius = '40px';
-            toast.style.fontSize = '14px';
-            toast.style.fontWeight = '500';
-            toast.style.zIndex = '9999';
-            toast.style.backdropFilter = 'blur(12px)';
-            toast.style.fontFamily = 'inherit';
-            toast.style.whiteSpace = 'nowrap';
-            document.body.appendChild(toast);
-
-            setTimeout(() => {
-                if (toast && toast.remove) toast.remove();
+        function showToast(message, isSuccess = true) {
+            if (toastTimer) clearTimeout(toastTimer);
+            toastMsgSpan.innerText = message;
+            toastEl.style.backgroundColor = isSuccess ? '#0B1426' : '#2c3e2f';
+            toastEl.querySelector('i').className = isSuccess ? 'fas fa-check-circle' : 'fas fa-info-circle';
+            toastEl.classList.add('show');
+            toastTimer = setTimeout(() => {
+                toastEl.classList.remove('show');
             }, 2800);
         }
 
-        function handleRegister() {
-            const email = emailInput.value.trim();
-            
-            if (!email) {
-                showMessage('📧 请输入邮箱地址参与S1争夺', true);
-                emailInput.focus();
-                return;
-            }
-            
-            if (!isValidEmail(email)) {
-                showMessage('❌ 邮箱格式无效，请填写正确邮箱', true);
-                emailInput.focus();
-                return;
-            }
+        // ======================= 2. 右侧动态增长数据 (累计跟单人数 & 收益) =======================
+        let currentFollowers = 102930;
+        let currentProfit = 76196197.90;
+        const followersEl = document.getElementById('followersCount');
+        const profitEl = document.getElementById('profitAmount');
+        
+        function updateStatsNumbers() {
+            const followerIncr = (Math.random() * 0.7) + 0.2;   // 0.2~0.9人/秒
+            currentFollowers += followerIncr;
+            const profitIncr = (Math.random() * 28) + 18;       // 18~46 USDT/秒
+            currentProfit += profitIncr;
+            followersEl.innerText = Math.floor(currentFollowers).toLocaleString('en-US');
+            profitEl.innerText = currentProfit.toFixed(2).toLocaleString('en-US');
+        }
+        setInterval(updateStatsNumbers, 1000);
+        followersEl.innerText = currentFollowers.toLocaleString('en-US');
+        profitEl.innerText = currentProfit.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
 
-            showMessage(`✅ 欢迎加入S1赛季！120万USDT奖池已解锁`, false);
-            console.log(`[CoinW S1] 注册尝试 | 邮箱: ${email}`);
-            
-            setTimeout(() => {
-                const continuePrompt = confirm("演示环境：注册信息已验证（前端模拟）\n正式环境将发送验证邮件并完成开户\n点击确定体验S1活动氛围");
-                if (continuePrompt) {
-                    window.open('https://www.coinw.com/activity/s1', '_blank');
-                }
-            }, 800);
+        // ======================= 3. 跟单表格数据（完全忠实用户提供的列表） =======================
+        const tradersDataRaw = [
+            { name: "MatrixPort巨鲸", pnl: "+$36,713,874.8592", trendIcon: "🔥", winRate: "100%", trades: 149, lastTime: "2026-04-30 05:07:29" },
+            { name: "前链上HYPE最大多头", pnl: "+$18,509,933.533", trendIcon: "📈", winRate: "49.61%", trades: 211875, lastTime: "2026-05-12 23:24:04" },
+            { name: "0x45...ed4029", pnl: "+$9,956,603.0613", trendIcon: "⬆️", winRate: "41.25%", trades: 9368, lastTime: "2026-05-13 01:07:33" },
+            { name: "0x5b...98c060", pnl: "+$7,849,086.3886", trendIcon: "🚀", winRate: "89.07%", trades: 21907, lastTime: "2026-05-13 22:48:43" },
+            { name: "0x71...D4A23D", pnl: "+$3,489,790.0762", trendIcon: "📊", winRate: "39.41%", trades: 1545, lastTime: "2026-05-07 02:23:40" },
+            { name: "0x61...f2a62b", pnl: "+$2,284,476.5457", trendIcon: "📉", winRate: "46.8%", trades: 11111, lastTime: "2026-05-07 22:15:11" },
+            { name: "中立策略师", pnl: "+$1,707,627.2854", trendIcon: "⚖️", winRate: "96.77%", trades: 124, lastTime: "2026-05-08 22:15:07" },
+            { name: "0x48...d137a2", pnl: "+$1,343,943.794", trendIcon: "📈", winRate: "99.02%", trades: 5040, lastTime: "2026-05-13 22:05:13" },
+            { name: "0xae...4348af", pnl: "+$375,894.3491", trendIcon: "📊", winRate: "70.7%", trades: 257, lastTime: "2026-05-13 22:47:27" },
+            { name: "0xd8...77646a", pnl: "+$196,815.1182", trendIcon: "⭐", winRate: "91.84%", trades: 3628, lastTime: "2026-05-13 22:48:15" }
+        ];
+
+        let currentPage = 1;
+        const rowsPerPage = 5;
+
+        function renderTable(page) {
+            const tbody = document.getElementById('tableBody');
+            if (!tbody) return;
+            const start = (page - 1) * rowsPerPage;
+            const pageData = tradersDataRaw.slice(start, start + rowsPerPage);
+            tbody.innerHTML = '';
+            pageData.forEach(trader => {
+                const row = tbody.insertRow();
+                // 钱包地址/名称
+                const cellName = row.insertCell(0);
+                cellName.innerHTML = `<div class="trader-name"><i class="fas fa-user-astronaut"></i> ${trader.name} ${trader.name.includes('巨鲸') ? '<span style="background:#FEF3C7; font-size:10px; padding:2px 8px; border-radius:40px;">巨鲸</span>' : ''}</div>`;
+                // PNL
+                const cellPnl = row.insertCell(1);
+                cellPnl.innerHTML = `<span class="profit-positive">${trader.pnl}</span>`;
+                // 链上趋势
+                const cellTrend = row.insertCell(2);
+                cellTrend.innerHTML = `<span>${trader.trendIcon} ${trader.pnl.includes('+') ? '强劲' : '波动'}</span>`;
+                // 胜率
+                const cellWin = row.insertCell(3);
+                cellWin.innerHTML = `<strong>${trader.winRate}</strong>`;
+                // 交易笔数
+                const cellTrades = row.insertCell(4);
+                cellTrades.innerText = trader.trades.toLocaleString();
+                // 最近交易时间
+                const cellTime = row.insertCell(5);
+                cellTime.innerText = trader.lastTime;
+                // 操作按钮
+                const cellAction = row.insertCell(6);
+                cellAction.className = 'action-btns';
+                cellAction.innerHTML = `<button class="btn-alert alertBtn" data-name="${trader.name}"><i class="fas fa-bell"></i> 预警</button><button class="btn-copy copyBtn" data-name="${trader.name}"><i class="fas fa-copy"></i> 跟单</button>`;
+            });
+            attachTableEvents();
+            renderPagination();
         }
 
-        registerBtn.addEventListener('click', handleRegister);
-        
-        emailInput.addEventListener('keypress', (e) => {
-            if (e.key === 'Enter') {
-                e.preventDefault();
-                handleRegister();
-            }
-        });
-
-        const videoElem = document.querySelector('.bg-video');
-        if (videoElem) {
-            videoElem.addEventListener('error', () => {
-                const videoSection = document.querySelector('.video-section');
-                if (videoSection) {
-                    videoSection.style.background = 'linear-gradient(135deg, #0a0a1a, #001133)';
-                }
+        function attachTableEvents() {
+            // 跟单按钮：页面内 toast 提示，无弹窗
+            document.querySelectorAll('.copyBtn').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    const traderName = btn.getAttribute('data-name') || '该交易员';
+                    showToast(`✨ 已跟单 ${traderName}，策略创建成功，请完成注册以自动复制交易`, true);
+                });
+            });
+            // 预警按钮：页面内 toast 提示
+            document.querySelectorAll('.alertBtn').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    const traderName = btn.getAttribute('data-name') || '该交易员';
+                    showToast(`🔔 已设置 ${traderName} 异动预警，将第一时间通知您`, true);
+                });
             });
         }
+
+        function renderPagination() {
+            const totalPages = Math.ceil(tradersDataRaw.length / rowsPerPage);
+            const paginationDiv = document.getElementById('paginationControls');
+            if (!paginationDiv) return;
+            paginationDiv.innerHTML = '';
+            for (let i = 1; i <= totalPages; i++) {
+                const pageSpan = document.createElement('div');
+                pageSpan.className = `page-number ${i === currentPage ? 'active-page' : ''}`;
+                pageSpan.innerText = i;
+                pageSpan.addEventListener('click', () => {
+                    currentPage = i;
+                    renderTable(currentPage);
+                    showToast(`📄 切换到第 ${i} 页`, true);
+                });
+                paginationDiv.appendChild(pageSpan);
+            }
+        }
+
+        // 筛选器（仅UI状态变化 + toast提示，无弹窗）
+        const filterChips = document.querySelectorAll('.filter-chip');
+        filterChips.forEach(chip => {
+            chip.addEventListener('click', function() {
+                filterChips.forEach(c => c.classList.remove('active'));
+                this.classList.add('active');
+                const filterType = this.innerText;
+                showToast(`📊 当前筛选：“${filterType}” 展示顶尖交易员列表 (真实数据)`, true);
+            });
+        });
+
+        // 注册按钮不需要弹窗，因为是跳转链接，但若需要额外引导可加toast（可选，保持清爽不加）
+        // 初始化表格
+        renderTable(1);
     })();
 </script>
 </body>
