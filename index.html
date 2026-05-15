@@ -1,633 +1,243 @@
-
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <title>CoinW · 一键跟单全球顶级交易员 | 智能跟单 躺赚模式</title>
-    <!-- Google Font & Font Awesome -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <title>CoinW · 聪明钱实时雷达</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
+        :root {
+            --coinw-purple: #5E24FF;
+            --coinw-purple-hover: #4A1DCC;
+            --text-main: #0B1426;
+            --text-sub: #5A6E8C;
+            --green: #03A66D;
+            --red: #CF304A;
+            --border: #EAECEF;
+            --bg-faint: #F4F7FF;
         }
 
-        body {
-            font-family: 'Inter', sans-serif;
-            background: linear-gradient(145deg, #fefefa 0%, #f0f4fc 100%);
-            min-height: 100vh;
-            padding: 40px 32px;
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', sans-serif; background: var(--bg-faint); color: var(--text-main); padding: 40px 20px; }
+        .main-wrapper { max-width: 1200px; margin: 0 auto; }
+
+        /* --- 1. HERO 注册区 --- */
+        .hero-card {
+            background: #FFFFFF; border-radius: 40px; display: flex; overflow: hidden;
+            box-shadow: 0 20px 50px rgba(94, 36, 255, 0.05); margin-bottom: 40px;
+        }
+        .hero-left { flex: 1.2; padding: 60px; }
+        .hero-left h1 { font-size: 48px; font-weight: 800; margin-bottom: 20px; line-height: 1.1; }
+        .hero-left p { font-size: 18px; color: var(--text-sub); border-left: 4px solid var(--coinw-purple); padding-left: 18px; }
+        
+        .hero-right { flex: 1; padding: 60px; background: #F9FAFF; border-left: 1px solid var(--border); }
+        .input-group { position: relative; margin-bottom: 16px; }
+        .input-group i { position: absolute; left: 18px; top: 18px; color: #A9B9D4; }
+        .input-group input {
+            width: 100%; padding: 16px 16px 16px 50px; border-radius: 12px;
+            border: 1.5px solid var(--border); outline: none; transition: 0.3s;
+        }
+        .reg-btn {
+            width: 100%; background: var(--coinw-purple); color: white; border: none; padding: 18px;
+            border-radius: 12px; font-weight: 800; font-size: 18px; cursor: pointer;
         }
 
-        /* 主容器 - 上下结构：注册卡片 + 交易员表格模块 */
-        .main-wrapper {
-            max-width: 1400px;
-            margin: 0 auto;
+        /* --- 2. 交易员列表区 --- */
+        .list-container { background: white; border-radius: 20px; border: 1px solid var(--border); overflow-x: auto; }
+        
+        /* 表格布局 */
+        .list-header, .trader-row {
+            display: grid;
+            grid-template-columns: 280px 140px 140px 100px 100px 140px 200px;
+            align-items: center; padding: 16px 24px; min-width: 1100px;
         }
+        .list-header { background: #FAFAFA; color: var(--text-sub); font-size: 13px; font-weight: 600; border-bottom: 1px solid var(--border); }
+        .trader-row { border-bottom: 1px solid var(--border); transition: 0.2s; }
+        .trader-row:hover { background: #F9FAFF; }
 
-        /* 注册卡片 (左右排列) */
-        .register-card {
-            background: #ffffff;
-            border-radius: 48px;
-            box-shadow: 0 35px 68px rgba(0, 0, 0, 0.08), 0 8px 18px rgba(0, 0, 0, 0.02);
-            display: flex;
-            flex-wrap: wrap;
-            overflow: hidden;
-            margin-bottom: 48px;
-            transition: all 0.2s;
-        }
+        /* 排名与头像 */
+        .rank-box { display: flex; align-items: center; gap: 12px; }
+        .rank-num { width: 24px; text-align: center; font-weight: 700; color: #A9B9D4; font-size: 16px; }
+        .medal { font-size: 20px; }
+        .avatar { width: 44px; height: 44px; border-radius: 50%; object-fit: cover; background: #eee; }
+        .info-text b { display: block; font-size: 15px; margin-bottom: 4px; }
+        .info-text span { font-size: 11px; color: var(--text-sub); display: flex; align-items: center; gap: 4px; }
 
-        /* 左侧区域：跟单收益介绍 */
-        .left-benefits {
-            flex: 1.2;
-            background: linear-gradient(135deg, #0B1426 0%, #121C32 100%);
-            padding: 56px 44px;
-            color: white;
-            position: relative;
-            overflow: hidden;
-        }
-        .left-benefits::before {
-            content: "";
-            position: absolute;
-            top: -20%;
-            right: -20%;
-            width: 280px;
-            height: 280px;
-            background: radial-gradient(circle, rgba(255,215,0,0.12) 0%, rgba(0,0,0,0) 70%);
-            border-radius: 50%;
-            pointer-events: none;
-        }
+        /* 数据样式 */
+        .val-pnl { font-weight: 700; font-size: 15px; }
+        .up { color: var(--green); }
+        .down { color: var(--red); }
+        .pnl-chart { width: 80px; height: 30px; }
+        
+        /* 币种偏好 */
+        .coin-stack { display: flex; align-items: center; }
+        .coin-stack img { width: 22px; height: 22px; border-radius: 50%; border: 2px solid #fff; margin-left: -8px; }
+        .coin-stack img:first-child { margin-left: 0; }
 
-        .badge-icon {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            background: rgba(255,215,0,0.18);
-            padding: 8px 20px;
-            border-radius: 80px;
-            font-size: 14px;
-            font-weight: 500;
-            margin-bottom: 32px;
-            backdrop-filter: blur(2px);
-        }
+        /* 按钮 */
+        .action-btns { display: flex; gap: 8px; justify-content: flex-end; }
+        .btn { padding: 8px 16px; border-radius: 8px; font-weight: 700; font-size: 13px; cursor: pointer; border: none; }
+        .btn-sub { background: #F0F1F2; color: var(--text-main); }
+        .btn-follow { background: var(--coinw-purple); color: white; }
 
-        .left-benefits h1 {
-            font-size: 52px;
-            font-weight: 800;
-            line-height: 1.2;
-            letter-spacing: -1px;
-            margin-bottom: 20px;
-            background: linear-gradient(120deg, #FFFFFF, #FFE68F);
-            background-clip: text;
-            -webkit-background-clip: text;
-            color: transparent;
-        }
-
-        .subhead {
-            font-size: 20px;
-            font-weight: 500;
-            color: #CBD5E6;
-            margin-bottom: 48px;
-            border-left: 3px solid #F0B90B;
-            padding-left: 18px;
-        }
-
-        .feature-list {
-            display: flex;
-            flex-direction: column;
-            gap: 28px;
-            margin-top: 20px;
-        }
-
-        .feature-item {
-            display: flex;
-            align-items: center;
-            gap: 16px;
-        }
-
-        .feature-icon {
-            width: 48px;
-            height: 48px;
-            background: rgba(240, 185, 11, 0.15);
-            border-radius: 60px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 24px;
-            color: #F0B90B;
-        }
-
-        .feature-text h4 {
-            font-size: 18px;
-            font-weight: 700;
-            margin-bottom: 6px;
-        }
-
-        .feature-text p {
-            font-size: 14px;
-            color: #A9B9D4;
-        }
-
-        /* 右侧注册区域 */
-        .right-register {
-            flex: 1;
-            padding: 56px 44px;
-            background: #FFFFFF;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-        }
-
-        .stats-float {
-            background: #F8FAFF;
-            border-radius: 32px;
-            padding: 20px 24px;
-            margin-bottom: 32px;
-            display: flex;
-            justify-content: space-between;
-            border: 1px solid #EFF2FA;
-            box-shadow: 0 6px 14px rgba(0, 0, 0, 0.02);
-        }
-
-        .stat-block {
-            text-align: center;
-            flex: 1;
-        }
-
-        .stat-number {
-            font-size: 28px;
-            font-weight: 800;
-            color: #0B1426;
-            letter-spacing: -0.3px;
-            display: flex;
-            align-items: baseline;
-            justify-content: center;
-            gap: 4px;
-        }
-
-        .stat-label {
-            font-size: 13px;
-            color: #5A6E8C;
-            margin-top: 6px;
-            font-weight: 500;
-        }
-
-        .coinw-register-btn {
-            background: #F0B90B;
-            width: 100%;
-            border: none;
-            padding: 18px 0;
-            border-radius: 60px;
-            font-weight: 800;
-            font-size: 18px;
-            color: #0B1426;
-            cursor: pointer;
-            transition: 0.2s;
-            box-shadow: 0 8px 18px rgba(240, 185, 11, 0.25);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 12px;
-        }
-
-        .coinw-register-btn:hover {
-            background: #e0a80a;
-            transform: scale(0.98);
-        }
-
-        .register-hint {
-            text-align: center;
-            font-size: 14px;
-            color: #7687A5;
-            margin-top: 18px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            font-weight: 500;
-        }
-
-        .extra-note {
-            background: #F9FBFE;
-            border-radius: 28px;
-            padding: 16px 20px;
-            margin-top: 32px;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            border: 1px solid #EDF2F9;
-            font-size: 13px;
-            color: #2c3e66;
-        }
-
-        /* 智能跟单表格板块 */
-        .smart-trading-section {
-            background: #ffffff;
-            border-radius: 32px;
-            padding: 24px 28px 32px 28px;
-            box-shadow: 0 20px 35px -12px rgba(0, 0, 0, 0.05);
-            border: 1px solid #eef2fa;
-            margin-top: 20px;
-        }
-
-        .section-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            margin-bottom: 28px;
-        }
-        .section-header h2 {
-            font-size: 28px;
-            font-weight: 700;
-            background: linear-gradient(135deg, #0B1426, #2b3d6e);
-            background-clip: text;
-            -webkit-background-clip: text;
-            color: transparent;
-        }
-        .filter-tabs {
-            display: flex;
-            gap: 12px;
-            flex-wrap: wrap;
-        }
-        .filter-chip {
-            background: #eff3fe;
-            padding: 6px 20px;
-            border-radius: 40px;
-            font-size: 14px;
-            font-weight: 500;
-            color: #1e2b4f;
-            cursor: pointer;
-            transition: all 0.2s;
-        }
-        .filter-chip.active, .filter-chip:hover {
-            background: #0a0e27;
-            color: white;
-        }
-
-        .trading-table-wrapper {
-            overflow-x: auto;
-            border-radius: 24px;
-            border: 1px solid #edf2f9;
-        }
-        .smart-table {
-            width: 100%;
-            border-collapse: collapse;
-            font-size: 14px;
-            min-width: 860px;
-        }
-        .smart-table th {
-            text-align: left;
-            padding: 18px 16px;
-            background-color: #f9fbfe;
-            font-weight: 700;
-            color: #1f2a48;
-            border-bottom: 1px solid #eef2f8;
-        }
-        .smart-table td {
-            padding: 16px;
-            border-bottom: 1px solid #f0f4fc;
-            color: #1f2c44;
-            font-weight: 500;
-        }
-        .trader-name {
-            font-weight: 700;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-        .profit-positive {
-            color: #0e7b32;
-            font-weight: 700;
-            background: #e9f7ef;
-            display: inline-block;
-            padding: 4px 10px;
-            border-radius: 40px;
-            font-size: 13px;
-        }
-        .action-btns {
-            display: flex;
-            gap: 12px;
-        }
-        .btn-alert {
-            background: transparent;
-            border: 1px solid #cfdfed;
-            padding: 6px 14px;
-            border-radius: 32px;
-            font-size: 12px;
-            font-weight: 500;
-            cursor: pointer;
-            transition: 0.2s;
-        }
-        .btn-copy {
-            background: #0a0e27;
-            color: white;
-            border: none;
-            padding: 6px 18px;
-            border-radius: 32px;
-            font-size: 12px;
-            font-weight: 600;
-            cursor: pointer;
-        }
-        .pagination {
-            display: flex;
-            justify-content: flex-end;
-            margin-top: 24px;
-            gap: 10px;
-        }
-        .page-number {
-            width: 36px;
-            height: 36px;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 40px;
-            background: #f2f5fc;
-            cursor: pointer;
-        }
-        .page-number.active-page {
-            background: #0a0e27;
-            color: white;
-        }
-
-        /* 自定义 Toast 提示 (页面内提示，无弹窗) */
-        .custom-toast {
-            position: fixed;
-            bottom: 32px;
-            left: 50%;
-            transform: translateX(-50%) scale(0.95);
-            background: #0B1426;
-            backdrop-filter: blur(12px);
-            color: white;
-            padding: 12px 28px;
-            border-radius: 60px;
-            font-weight: 500;
-            font-size: 14px;
-            z-index: 9999;
-            opacity: 0;
-            transition: opacity 0.2s, transform 0.2s;
-            pointer-events: none;
-            box-shadow: 0 12px 28px rgba(0,0,0,0.2);
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            white-space: nowrap;
-            letter-spacing: 0.3px;
-            border: 1px solid rgba(255,215,0,0.3);
-        }
-        .custom-toast i {
-            font-size: 18px;
-            color: #F0B90B;
-        }
-        .custom-toast.show {
-            opacity: 1;
-            transform: translateX(-50%) scale(1);
-            pointer-events: none;
-        }
-        @media (max-width: 640px) {
-            .custom-toast { white-space: normal; width: 80%; text-align: center; font-size: 13px; padding: 10px 20px; }
-        }
-
-        @media (max-width: 980px) {
-            .register-card { flex-direction: column; }
-            .left-benefits, .right-register { padding: 40px 32px; }
-            .left-benefits h1 { font-size: 42px; }
-            .section-header { flex-direction: column; align-items: start; gap: 16px; }
-        }
-        @media (max-width: 550px) {
-            .stats-float { flex-direction: column; gap: 20px; }
-            body { padding: 20px 16px; }
+        @media (max-width: 900px) {
+            .hero-card { flex-direction: column; }
+            .hero-left, .hero-right { padding: 40px 30px; }
         }
     </style>
 </head>
 <body>
+
 <div class="main-wrapper">
-    <!-- 注册卡片 (左右排列，完全按照 CoinW 风格) -->
-    <div class="register-card">
-        <!-- 左侧：一键跟单，坐享收益 -->
-        <div class="left-benefits">
-            <div class="badge-icon">
-                <i class="fas fa-chart-line"></i> CoinW 官方跟单
-            </div>
+    <div class="hero-card">
+        <div class="hero-left">
             <h1>一键跟单，<br>坐享收益</h1>
-            <div class="subhead">跟单全球优秀交易员，一键完成跟单设置，自动开启躺赚模式。</div>
-            <div class="feature-list">
-                <div class="feature-item">
-                    <div class="feature-icon"><i class="fas fa-copy"></i></div>
-                    <div class="feature-text"><h4>顶级钱包实时同步</h4><p>复制顶尖交易员/巨鲸地址，毫秒级执行</p></div>
-                </div>
-                <div class="feature-item">
-                    <div class="feature-icon"><i class="fas fa-chart-simple"></i></div>
-                    <div class="feature-text"><h4>智能风控 · 自动止盈</h4><p>自定义跟单比例，止损止盈一键设置</p></div>
-                </div>
-                <div class="feature-item">
-                    <div class="feature-icon"><i class="fas fa-globe"></i></div>
-                    <div class="feature-text"><h4>全链覆盖</h4><p>支持 Ethereum, BSC, Solana 等主流公链</p></div>
-                </div>
+            <p>实时监控全球 10,000+ 顶级巨鲸钱包地址，<br>像机构一样进行交易。</p>
+            <div style="margin-top: 40px; display: flex; gap: 40px;">
+                <div><h3 style="font-size: 28px;">$180M+</h3><p style="border:none; padding:0; font-size:12px;">已实现收益</p></div>
+                <div><h3 style="font-size: 28px;">102k+</h3><p style="border:none; padding:0; font-size:12px;">活跃跟单者</p></div>
             </div>
         </div>
-
-        <!-- 右侧：注册 + 动态数据 -->
-        <div class="right-register">
-            <div class="stats-float">
-                <div class="stat-block">
-                    <div class="stat-number"><span id="followersCount" class="dynamic-number">102,930</span></div>
-                    <div class="stat-label"><i class="fas fa-users"></i> 累计跟单人数</div>
-                </div>
-                <div class="stat-block">
-                    <div class="stat-number"><span id="profitAmount" class="dynamic-number">76,196,197.90</span> <span style="font-size: 14px;">USDT</span></div>
-                    <div class="stat-label"><i class="fas fa-dollar-sign"></i> 累计跟单收益</div>
-                </div>
-            </div>
-            <a href="https://www.coinw.com/zh_CN/register?redirectUrl=/zh_CN" target="_blank" rel="noopener noreferrer" style="text-decoration: none; display: block;">
-                <button class="coinw-register-btn" id="mainRegisterBtn"><i class="fas fa-rocket"></i> 立即注册 · 一键跟单</button>
-            </a>
-            <div class="register-hint">
-                <i class="fas fa-infinity"></i> 一键跟单全球顶级钱包地址
-                <i class="fas fa-arrow-right"></i>
-            </div>
-            <div class="extra-note">
-                <i class="fas fa-shield-alt" style="color: #F0B90B; font-size: 20px;"></i>
-                <span>跟单资金安全隔离，100% 储备金证明 | 顶级流动性</span>
-            </div>
+        <div class="hero-right">
+            <h3 style="margin-bottom: 20px;">立即注册开启跟单</h3>
+            <div class="input-group"><i class="fas fa-envelope"></i><input type="text" placeholder="邮箱地址"></div>
+            <div class="input-group"><i class="fas fa-lock"></i><input type="password" placeholder="设置密码"></div>
+            <button class="reg-btn">立即开启</button>
         </div>
     </div>
 
-    <!-- ★ 高手跟单表格：完全基于用户提供的HTML结构数据，所有点击均为页面内Toast提示 ★ -->
-    <div class="smart-trading-section">
-        <div class="section-header">
-            <h2><i class="fas fa-crown" style="margin-right: 10px; color:#F0B90B;"></i> 顶尖交易员 · 智能跟单榜</h2>
-            <div class="filter-tabs">
-                <span class="filter-chip active">90日</span>
-                <span class="filter-chip">全部</span>
-                <span class="filter-chip">大资金</span>
-                <span class="filter-chip">主流高手</span>
-                <span class="filter-chip">稳健</span>
-                <span class="filter-chip">常胜将军</span>
+    <h2 style="margin-bottom: 20px;">实时“聪明钱”雷达</h2>
+    <div class="list-container">
+        <div class="list-header">
+            <div>交易员</div>
+            <div>收益额</div>
+            <div>链上PnL走势</div>
+            <div>胜率</div>
+            <div>交易笔数</div>
+            <div>币种偏好</div>
+            <div style="text-align: right;">操作</div>
+        </div>
+
+        <div class="trader-row">
+            <div class="rank-box">
+                <span class="rank-num medal">🥇</span>
+                <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Maji" class="avatar">
+                <div class="info-text"><b>麻吉大哥</b><span>⚡️ 15小时前 25x 开多 ETH</span></div>
             </div>
+            <div class="val-pnl down">-$2.29M</div>
+            <div class="pnl-chart"><svg viewBox="0 0 100 30"><path d="M0,10 Q20,25 40,15 T100,28" fill="none" stroke="var(--red)" stroke-width="2"/></svg></div>
+            <div class="val-pnl">85.18%</div>
+            <div class="val-pnl">7209</div>
+            <div class="coin-stack">
+                <img src="https://cryptologos.cc/logos/bitcoin-btc-logo.png"><img src="https://cryptologos.cc/logos/ethereum-eth-logo.png">
+            </div>
+            <div class="action-btns"><button class="btn btn-sub">订阅</button><button class="btn btn-follow">跟单</button></div>
         </div>
-        <div class="trading-table-wrapper">
-            <table class="smart-table" id="copyTradingTable">
-                <thead>
-                    <tr><th>钱包地址 / 交易员</th><th>PNL</th><th>链上 PnL trend</th><th>胜率</th><th>交易笔数</th><th>最近交易时间</th><th>操作</th></tr>
-                </thead>
-                <tbody id="tableBody"></tbody>
-            </table>
+
+        <div class="trader-row">
+            <div class="rank-box">
+                <span class="rank-num medal">🥈</span>
+                <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Short" class="avatar">
+                <div class="info-text"><b>做空山寨哥</b><span>⚡️ 11小时前 5x 开空 ZEC</span></div>
+            </div>
+            <div class="val-pnl up">+$9.07M</div>
+            <div class="pnl-chart"><svg viewBox="0 0 100 30"><path d="M0,25 Q30,5 60,15 T100,2" fill="none" stroke="var(--green)" stroke-width="2"/></svg></div>
+            <div class="val-pnl">74.72%</div>
+            <div class="val-pnl">28973</div>
+            <div class="coin-stack">
+                <img src="https://cryptologos.cc/logos/bnb-bnb-logo.png"><img src="https://cryptologos.cc/logos/solana-sol-logo.png">
+            </div>
+            <div class="action-btns"><button class="btn btn-sub">订阅</button><button class="btn btn-follow">跟单</button></div>
         </div>
-        <div class="pagination" id="paginationControls"></div>
-        <div style="font-size:12px; color:#6f7d9a; margin-top: 20px; text-align: right;"><i class="fas fa-chart-line"></i> 数据基于链上真实PnL，展示可跟单钱包 | 每5分钟更新</div>
+
+        <div class="trader-row">
+            <div class="rank-box">
+                <span class="rank-num medal">🥉</span>
+                <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Winter" class="avatar">
+                <div class="info-text"><b>Wintermute 知名做市</b><span>⚡️ 18秒前 1x 开空...</span></div>
+            </div>
+            <div class="val-pnl down">-$448.94K</div>
+            <div class="pnl-chart"><svg viewBox="0 0 100 30"><path d="M0,15 L30,20 L60,18 L100,25" fill="none" stroke="var(--red)" stroke-width="2"/></svg></div>
+            <div class="val-pnl">50.83%</div>
+            <div class="val-pnl">3006149</div>
+            <div class="coin-stack">
+                <img src="https://cryptologos.cc/logos/bitcoin-btc-logo.png"><img src="https://cryptologos.cc/logos/tether-usdt-logo.png">
+            </div>
+            <div class="action-btns"><button class="btn btn-sub">订阅</button><button class="btn btn-follow">跟单</button></div>
+        </div>
+
+        <div class="trader-row">
+            <div class="rank-box">
+                <span class="rank-num">4</span>
+                <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Matrix" class="avatar">
+                <div class="info-text"><b>Mtrixport 鲸鱼</b><span>" PNL超 $19M</span></div>
+            </div>
+            <div class="val-pnl up">+$19.09M</div>
+            <div class="pnl-chart"><svg viewBox="0 0 100 30"><path d="M0,28 L70,28 L72,5 L100,5" fill="none" stroke="var(--green)" stroke-width="2"/></svg></div>
+            <div class="val-pnl">100.00%</div>
+            <div class="val-pnl">32</div>
+            <div class="coin-stack"><img src="https://cryptologos.cc/logos/ethereum-eth-logo.png"></div>
+            <div class="action-btns"><button class="btn btn-sub">订阅</button><button class="btn btn-follow">跟单</button></div>
+        </div>
+
+        <div class="trader-row">
+            <div class="rank-box">
+                <span class="rank-num">5</span>
+                <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Hype" class="avatar">
+                <div class="info-text"><b>前链上HYPE最大多头</b><span>⚡️ 18小时前 1x 开空...</span></div>
+            </div>
+            <div class="val-pnl up">+$17.81M</div>
+            <div class="pnl-chart"><svg viewBox="0 0 100 30"><path d="M0,25 L50,25 L55,10 L100,5" fill="none" stroke="var(--green)" stroke-width="2"/></svg></div>
+            <div class="val-pnl">48.25%</div>
+            <div class="val-pnl">216398</div>
+            <div class="coin-stack"><img src="https://cryptologos.cc/logos/dogecoin-doge-logo.png"></div>
+            <div class="action-btns"><button class="btn btn-sub">订阅</button><button class="btn btn-follow">跟单</button></div>
+        </div>
+
+        <div class="trader-row">
+            <div class="rank-box">
+                <span class="rank-num">6</span>
+                <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Whale" class="avatar">
+                <div class="info-text"><b>千万盈利波动巨鲸</b><span>⚡️ 11小时前 3x 开空 BLAST</span></div>
+            </div>
+            <div class="val-pnl up">+$9.95M</div>
+            <div class="pnl-chart"><svg viewBox="0 0 100 30"><path d="M0,20 L40,15 L70,10 L100,5" fill="none" stroke="var(--green)" stroke-width="2"/></svg></div>
+            <div class="val-pnl">41.25%</div>
+            <div class="val-pnl">9376</div>
+            <div class="coin-stack"><img src="https://cryptologos.cc/logos/solana-sol-logo.png"></div>
+            <div class="action-btns"><button class="btn btn-sub">订阅</button><button class="btn btn-follow">跟单</button></div>
+        </div>
+
+        <div class="trader-row">
+            <div class="rank-box">
+                <span class="rank-num">7</span>
+                <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=CL" class="avatar">
+                <div class="info-text"><b>CL 策略专家</b><span>⚡️ 高频捕捉波段收益</span></div>
+            </div>
+            <div class="val-pnl up">+$1.39M</div>
+            <div class="pnl-chart"><svg viewBox="0 0 100 30"><path d="M0,25 Q50,5 100,20" fill="none" stroke="var(--green)" stroke-width="2"/></svg></div>
+            <div class="val-pnl">66.40%</div>
+            <div class="val-pnl">1896</div>
+            <div class="coin-stack"><img src="https://cryptologos.cc/logos/bitcoin-btc-logo.png"></div>
+            <div class="action-btns"><button class="btn btn-sub">订阅</button><button class="btn btn-follow">跟单</button></div>
+        </div>
+
+        <div class="trader-row" style="border:none;">
+            <div class="rank-box">
+                <span class="rank-num">8</span>
+                <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Top" class="avatar">
+                <div class="info-text"><b>24h 盈利榜上榜者</b><span>⚡️ 正在寻找新的入场点</span></div>
+            </div>
+            <div class="val-pnl up">+$1.28M</div>
+            <div class="pnl-chart"><svg viewBox="0 0 100 30"><path d="M0,15 L100,5" fill="none" stroke="var(--green)" stroke-width="2"/></svg></div>
+            <div class="val-pnl">97.27%</div>
+            <div class="val-pnl">5025</div>
+            <div class="coin-stack"><img src="https://cryptologos.cc/logos/ethereum-eth-logo.png"></div>
+            <div class="action-btns"><button class="btn btn-sub">订阅</button><button class="btn btn-follow">跟单</button></div>
+        </div>
     </div>
 </div>
 
-<!-- 页面内 Toast 结构 -->
-<div id="pageToast" class="custom-toast">
-    <i class="fas fa-check-circle"></i>
-    <span id="toastMessage">操作成功</span>
-</div>
-
-<script>
-    (function() {
-        // ======================= 1. 页面内优雅Toast提示函数 (无浏览器弹窗) =======================
-        const toastEl = document.getElementById('pageToast');
-        const toastMsgSpan = document.getElementById('toastMessage');
-        let toastTimer = null;
-
-        function showToast(message, isSuccess = true) {
-            if (toastTimer) clearTimeout(toastTimer);
-            toastMsgSpan.innerText = message;
-            toastEl.style.backgroundColor = isSuccess ? '#0B1426' : '#2c3e2f';
-            toastEl.querySelector('i').className = isSuccess ? 'fas fa-check-circle' : 'fas fa-info-circle';
-            toastEl.classList.add('show');
-            toastTimer = setTimeout(() => {
-                toastEl.classList.remove('show');
-            }, 2800);
-        }
-
-        // ======================= 2. 右侧动态增长数据 (累计跟单人数 & 收益) =======================
-        let currentFollowers = 102930;
-        let currentProfit = 76196197.90;
-        const followersEl = document.getElementById('followersCount');
-        const profitEl = document.getElementById('profitAmount');
-        
-        function updateStatsNumbers() {
-            const followerIncr = (Math.random() * 0.7) + 0.2;   // 0.2~0.9人/秒
-            currentFollowers += followerIncr;
-            const profitIncr = (Math.random() * 28) + 18;       // 18~46 USDT/秒
-            currentProfit += profitIncr;
-            followersEl.innerText = Math.floor(currentFollowers).toLocaleString('en-US');
-            profitEl.innerText = currentProfit.toFixed(2).toLocaleString('en-US');
-        }
-        setInterval(updateStatsNumbers, 1000);
-        followersEl.innerText = currentFollowers.toLocaleString('en-US');
-        profitEl.innerText = currentProfit.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-
-        // ======================= 3. 跟单表格数据（完全忠实用户提供的列表） =======================
-        const tradersDataRaw = [
-            { name: "MatrixPort巨鲸", pnl: "+$36,713,874.8592", trendIcon: "🔥", winRate: "100%", trades: 149, lastTime: "2026-04-30 05:07:29" },
-            { name: "前链上HYPE最大多头", pnl: "+$18,509,933.533", trendIcon: "📈", winRate: "49.61%", trades: 211875, lastTime: "2026-05-12 23:24:04" },
-            { name: "0x45...ed4029", pnl: "+$9,956,603.0613", trendIcon: "⬆️", winRate: "41.25%", trades: 9368, lastTime: "2026-05-13 01:07:33" },
-            { name: "0x5b...98c060", pnl: "+$7,849,086.3886", trendIcon: "🚀", winRate: "89.07%", trades: 21907, lastTime: "2026-05-13 22:48:43" },
-            { name: "0x71...D4A23D", pnl: "+$3,489,790.0762", trendIcon: "📊", winRate: "39.41%", trades: 1545, lastTime: "2026-05-07 02:23:40" },
-            { name: "0x61...f2a62b", pnl: "+$2,284,476.5457", trendIcon: "📉", winRate: "46.8%", trades: 11111, lastTime: "2026-05-07 22:15:11" },
-            { name: "中立策略师", pnl: "+$1,707,627.2854", trendIcon: "⚖️", winRate: "96.77%", trades: 124, lastTime: "2026-05-08 22:15:07" },
-            { name: "0x48...d137a2", pnl: "+$1,343,943.794", trendIcon: "📈", winRate: "99.02%", trades: 5040, lastTime: "2026-05-13 22:05:13" },
-            { name: "0xae...4348af", pnl: "+$375,894.3491", trendIcon: "📊", winRate: "70.7%", trades: 257, lastTime: "2026-05-13 22:47:27" },
-            { name: "0xd8...77646a", pnl: "+$196,815.1182", trendIcon: "⭐", winRate: "91.84%", trades: 3628, lastTime: "2026-05-13 22:48:15" }
-        ];
-
-        let currentPage = 1;
-        const rowsPerPage = 5;
-
-        function renderTable(page) {
-            const tbody = document.getElementById('tableBody');
-            if (!tbody) return;
-            const start = (page - 1) * rowsPerPage;
-            const pageData = tradersDataRaw.slice(start, start + rowsPerPage);
-            tbody.innerHTML = '';
-            pageData.forEach(trader => {
-                const row = tbody.insertRow();
-                // 钱包地址/名称
-                const cellName = row.insertCell(0);
-                cellName.innerHTML = `<div class="trader-name"><i class="fas fa-user-astronaut"></i> ${trader.name} ${trader.name.includes('巨鲸') ? '<span style="background:#FEF3C7; font-size:10px; padding:2px 8px; border-radius:40px;">巨鲸</span>' : ''}</div>`;
-                // PNL
-                const cellPnl = row.insertCell(1);
-                cellPnl.innerHTML = `<span class="profit-positive">${trader.pnl}</span>`;
-                // 链上趋势
-                const cellTrend = row.insertCell(2);
-                cellTrend.innerHTML = `<span>${trader.trendIcon} ${trader.pnl.includes('+') ? '强劲' : '波动'}</span>`;
-                // 胜率
-                const cellWin = row.insertCell(3);
-                cellWin.innerHTML = `<strong>${trader.winRate}</strong>`;
-                // 交易笔数
-                const cellTrades = row.insertCell(4);
-                cellTrades.innerText = trader.trades.toLocaleString();
-                // 最近交易时间
-                const cellTime = row.insertCell(5);
-                cellTime.innerText = trader.lastTime;
-                // 操作按钮
-                const cellAction = row.insertCell(6);
-                cellAction.className = 'action-btns';
-                cellAction.innerHTML = `<button class="btn-alert alertBtn" data-name="${trader.name}"><i class="fas fa-bell"></i> 预警</button><button class="btn-copy copyBtn" data-name="${trader.name}"><i class="fas fa-copy"></i> 跟单</button>`;
-            });
-            attachTableEvents();
-            renderPagination();
-        }
-
-        function attachTableEvents() {
-            // 跟单按钮：页面内 toast 提示，无弹窗
-            document.querySelectorAll('.copyBtn').forEach(btn => {
-                btn.addEventListener('click', (e) => {
-                    e.stopPropagation();
-                    const traderName = btn.getAttribute('data-name') || '该交易员';
-                    showToast(`✨ 已跟单 ${traderName}，策略创建成功，请完成注册以自动复制交易`, true);
-                });
-            });
-            // 预警按钮：页面内 toast 提示
-            document.querySelectorAll('.alertBtn').forEach(btn => {
-                btn.addEventListener('click', (e) => {
-                    e.stopPropagation();
-                    const traderName = btn.getAttribute('data-name') || '该交易员';
-                    showToast(`🔔 已设置 ${traderName} 异动预警，将第一时间通知您`, true);
-                });
-            });
-        }
-
-        function renderPagination() {
-            const totalPages = Math.ceil(tradersDataRaw.length / rowsPerPage);
-            const paginationDiv = document.getElementById('paginationControls');
-            if (!paginationDiv) return;
-            paginationDiv.innerHTML = '';
-            for (let i = 1; i <= totalPages; i++) {
-                const pageSpan = document.createElement('div');
-                pageSpan.className = `page-number ${i === currentPage ? 'active-page' : ''}`;
-                pageSpan.innerText = i;
-                pageSpan.addEventListener('click', () => {
-                    currentPage = i;
-                    renderTable(currentPage);
-                    showToast(`📄 切换到第 ${i} 页`, true);
-                });
-                paginationDiv.appendChild(pageSpan);
-            }
-        }
-
-        // 筛选器（仅UI状态变化 + toast提示，无弹窗）
-        const filterChips = document.querySelectorAll('.filter-chip');
-        filterChips.forEach(chip => {
-            chip.addEventListener('click', function() {
-                filterChips.forEach(c => c.classList.remove('active'));
-                this.classList.add('active');
-                const filterType = this.innerText;
-                showToast(`📊 当前筛选：“${filterType}” 展示顶尖交易员列表 (真实数据)`, true);
-            });
-        });
-
-        // 注册按钮不需要弹窗，因为是跳转链接，但若需要额外引导可加toast（可选，保持清爽不加）
-        // 初始化表格
-        renderTable(1);
-    })();
-</script>
 </body>
 </html>
