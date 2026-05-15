@@ -1,5 +1,3 @@
-
-
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
@@ -23,22 +21,43 @@
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { font-family: 'Inter', sans-serif; background: var(--bg-faint); color: var(--text-main); line-height: 1.5; }
-        .main-wrapper { max-width: 1200px; margin: 0 auto; padding: 40px 20px; }
+        .main-wrapper { max-width: 1200px; margin: 0 auto; padding: 20px 20px 40px 20px; }
+
+        /* --- Header / Logo --- */
+        .site-header {
+            display: flex;
+            align-items: center;
+            padding: 20px 0 30px 0;
+        }
+        .logo {
+            height: 32px; /* 控制Logo高度 */
+            display: flex;
+            align-items: center;
+        }
+        .logo img {
+            height: 100%;
+            width: auto;
+        }
 
         /* --- Hero Section --- */
         .hero-section {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 40px 0 80px 0;
+            padding: 10px 0 80px 0;
             gap: 60px;
         }
         .hero-text { flex: 1.2; }
         .hero-text h1 { font-size: 56px; font-weight: 800; margin-bottom: 24px; letter-spacing: -2px; line-height: 1.1; }
-        .hero-text p { font-size: 19px; color: var(--text-sub); margin-bottom: 40px; }
+        .hero-text p { 
+            font-size: 19px; 
+            color: var(--text-sub); 
+            margin-bottom: 40px; 
+            white-space: nowrap; /* 确保 Slogan 单行显示 */
+        }
 
         .stat-item { font-size: 16px; font-weight: 600; color: var(--text-sub); margin-bottom: 12px; }
-        .val-animate { display: inline-block; margin-left: 10px; font-weight: 800; font-size: 22px; color: var(--coinw-purple); }
+        .val-animate { display: inline-block; margin-left: 10px; font-weight: 800; font-size: 22px; color: var(--coinw-purple); transition: 0.3s; }
 
         /* --- Floating Register Card --- */
         .floating-reg-card {
@@ -76,14 +95,12 @@
         .list-header, .trader-row { display: grid; grid-template-columns: 320px 140px 140px 100px 100px 140px 160px; padding: 20px 24px; align-items: center; min-width: 1120px; }
         .list-header { background: #FAFAFA; color: var(--text-sub); font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; border-bottom: 1px solid var(--border); }
         .trader-row { border-bottom: 1px solid var(--border); }
-        .trader-row:last-child { border: none; }
         .rank-box { display: flex; align-items: center; gap: 14px; }
         .rank-num { width: 24px; font-weight: 800; color: #A9B9D4; text-align: center; font-size: 16px; }
         .avatar { width: 48px; height: 48px; border-radius: 50%; border: 1.5px solid #eee; }
         .info-text b { display: block; font-size: 16px; font-weight: 700; }
         .info-text span { font-size: 11px; color: var(--text-sub); display: flex; align-items: center; gap: 4px; margin-top: 2px; }
         
-        /* Realistic PNL Graph */
         .pnl-chart svg { width: 100px; height: 35px; overflow: visible; }
         .pnl-chart path { fill: none; stroke-width: 2.5; stroke-linecap: round; stroke-linejoin: round; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1)); }
 
@@ -98,42 +115,23 @@
         .btn-follow { background: var(--coinw-purple); color: white; }
 
         /* --- Trust Signals Section --- */
-        .trust-signals {
-            padding: 80px 0;
-            background: #fff;
-            border-top: 1px solid var(--border);
-            text-align: center;
-        }
-        .trust-grid {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 30px;
-            margin-top: 40px;
-        }
-        .trust-item {
-            padding: 24px;
-        }
+        .trust-signals { padding: 80px 0; background: #fff; border-top: 1px solid var(--border); text-align: center; }
+        .trust-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 30px; margin-top: 40px; }
+        .trust-item { padding: 24px; }
         .trust-item i { font-size: 32px; color: var(--coinw-purple); margin-bottom: 16px; }
         .trust-item h4 { font-size: 18px; margin-bottom: 8px; font-weight: 700; }
         .trust-item p { font-size: 14px; color: var(--text-sub); }
 
-        .cert-logos {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 50px;
-            margin-top: 50px;
-            opacity: 0.6;
-            filter: grayscale(1);
-        }
-        .cert-logos img { height: 30px; }
+        .cert-logos { display: flex; justify-content: center; align-items: center; gap: 50px; margin-top: 50px; opacity: 0.6; filter: grayscale(1); }
 
         /* Animation */
         .data-update { animation: pulse 0.5s ease-out; }
         @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.08); color: var(--coinw-gold); } 100% { transform: scale(1); } }
 
         @media (max-width: 900px) {
+            .site-header { justify-content: center; }
             .hero-section { flex-direction: column; text-align: center; }
+            .hero-text p { white-space: normal; }
             .compare-grid { grid-template-columns: 1fr; }
             .trust-grid { grid-template-columns: 1fr 1fr; }
         }
@@ -142,11 +140,16 @@
 <body>
 
 <div class="main-wrapper">
-    <!-- Hero -->
+    <header class="site-header">
+        <a href="#" class="logo">
+            <img src="https://cdn.yumltd.com/static/_home/_nuxt/cw-logo-light.BGAdSA2R.svg" alt="CoinW Logo">
+        </a>
+    </header>
+
     <section class="hero-section">
         <div class="hero-text">
             <h1>一键跟单，坐享收益</h1>
-            <p>跟单全球优秀交易员，一键完成跟单设置，<br>自动开启躺赚模式。</p>
+            <p>跟单全球优秀交易员，一键完成跟单设置，自动开启躺赚模式。</p>
             <div class="data-stats">
                 <div class="stat-item">累计跟单人数 <span id="people-count" class="val-animate">102,998</span></div>
                 <div class="stat-item">累计跟单收益 <span id="profit-count" class="val-animate">$76,322,938.51 USDT</span></div>
@@ -162,7 +165,6 @@
         </div>
     </section>
 
-    <!-- Comparison -->
     <div class="comparison-accordion">
         <div class="accordion-header" onclick="toggleAccordion()">
             <h3><i class="fas fa-shield-halved"></i> 为什么选择“聪明钱”跟单？</h3>
@@ -188,7 +190,6 @@
         </div>
     </div>
 
-    <!-- Trader List -->
     <h2 style="margin-bottom:24px; font-weight:800; font-size:26px;">顶级“聪明钱”实时雷达</h2>
     <div class="list-container" id="trader-list">
         <div class="list-header">
@@ -197,7 +198,6 @@
     </div>
 </div>
 
-<!-- Trust Signals -->
 <section class="trust-signals">
     <div class="main-wrapper">
         <h2 style="font-size:32px; font-weight:800;">权威背书与安全标识</h2>
@@ -293,7 +293,7 @@
         row.innerHTML = `
             <div class="rank-box"><span class="rank-num">${t.rank}</span><img src="https://api.dicebear.com/7.x/avataaars/svg?seed=${t.name}" class="avatar"><div class="info-text"><b>${t.name}</b><span>⚡️ ${t.badge}</span></div></div>
             <div class="val-pnl ${t.trend}">${t.pnl}</div>
-            <div class="pnl-chart"><svg viewBox="0 0 100 30"><path d="${getPath(t.trend)}" stroke="${color}"/></svg></div>
+            <div class="pnl-chart"><svg viewBox="0 0 100 30"><path d="${getPath(t.trend)}" stroke="${color}" fill="none" stroke-width="2.5"/></svg></div>
             <div class="val-pnl">${t.win}</div><div class="val-pnl">${t.count}</div>
             <div class="coin-stack">${t.coins.map(c => `<img src="https://cryptologos.cc/logos/${c}-logo.png">`).join('')}</div>
             <div class="action-btns"><button class="btn btn-follow">立即跟单</button></div>
