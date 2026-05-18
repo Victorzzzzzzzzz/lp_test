@@ -1,115 +1,162 @@
+
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <title>CoinW · 顶级聪明钱智能跟单</title>
+    <title>CoinW · 链上聪明钱智能跟单</title>
+    <meta name="description" content="CoinW 聪明钱跟单雷达，追踪链上高价值钱包与交易员表现，支持一键跟单、策略筛选和透明数据口径。">
+    <meta property="og:title" content="CoinW · 链上聪明钱智能跟单">
+    <meta property="og:description" content="实时追踪链上聪明钱，查看收益、胜率和回撤表现后再跟单。">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://victorzzzzzzzzz.github.io/lp_test/">
+    <link rel="canonical" href="https://victorzzzzzzzzz.github.io/lp_test/">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
             --coinw-purple: #5E24FF;
-            --coinw-purple-soft: rgba(94, 36, 255, 0.05);
+            --coinw-purple-soft: rgba(94, 36, 255, 0.07);
             --coinw-purple-hover: #4A1DCC;
             --text-main: #14171F;
             --text-sub: #5E6673;
+            --surface: #FFFFFF;
+            --soft-surface: #F7F8FB;
             --green: #03A66D;
             --red: #CF304A;
+            --amber: #B7791F;
             --border: #EAECEF;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        
-        body { 
-            font-family: 'Inter', sans-serif; 
-            color: var(--text-main); 
+        html { scroll-behavior: smooth; }
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            color: var(--text-main);
             line-height: 1.5;
-            background: 
-                linear-gradient(rgba(255, 255, 255, 0.88), rgba(255, 255, 255, 0.92)),
-                url('https://cdn.yumltd.com/static/_home/_nuxt/football-star.BWfVOsGl.webp');
-            background-size: cover;
-            background-position: center top;
-            background-attachment: fixed;
+            background:
+                radial-gradient(circle at 15% 10%, rgba(94, 36, 255, 0.08), transparent 28%),
+                linear-gradient(180deg, #FFFFFF 0%, #F6F7FB 100%);
         }
 
-        .main-wrapper { max-width: 1200px; margin: 0 auto; padding: 20px 20px 60px 20px; }
-
-        /* --- Header --- */
-        .site-header { display: flex; align-items: center; padding: 20px 0 40px 0; }
+        button, input, select { font: inherit; }
+        button:focus-visible, input:focus-visible, select:focus-visible { outline: 3px solid rgba(94, 36, 255, 0.22); outline-offset: 2px; }
+        .main-wrapper { max-width: 1200px; margin: 0 auto; padding: 20px 20px 44px; }
+        .site-header { display: flex; justify-content: space-between; align-items: center; padding: 18px 0 36px; }
         .logo { height: 32px; }
-        .logo img { height: 100%; width: auto; }
+        .logo img { height: 100%; width: auto; display: block; }
+        .header-actions { display: flex; align-items: center; gap: 16px; }
+        .header-note { color: var(--text-sub); font-size: 13px; font-weight: 600; white-space: nowrap; }
+        .language-switch { position: relative; display: flex; align-items: center; gap: 8px; color: var(--text-sub); font-size: 13px; font-weight: 800; }
+        .language-switch i { color: var(--coinw-purple); }
+        .language-switch select { min-width: 108px; appearance: none; border: 1px solid var(--border); border-radius: 999px; background: #FFFFFF; color: var(--text-main); cursor: pointer; padding: 9px 30px 9px 14px; font-weight: 800; }
+        .language-switch::after { content: '\\f078'; position: absolute; right: 12px; top: 50%; transform: translateY(-50%); color: var(--text-sub); font: var(--fa-font-solid); font-size: 10px; pointer-events: none; }
 
-        /* --- Hero --- */
-        .hero-section { display: flex; justify-content: space-between; align-items: center; padding: 20px 0 80px 0; gap: 60px; }
-        .hero-text { flex: 1.2; }
-        .hero-text h1 { font-size: 60px; font-weight: 900; color: var(--text-main); margin-bottom: 24px; letter-spacing: -2px; line-height: 1.1; }
-        .hero-text p { font-size: 20px; color: var(--text-sub); margin-bottom: 40px; font-weight: 500; }
+        .hero-section { display: grid; grid-template-columns: minmax(0, 1.12fr) 400px; align-items: center; gap: 64px; padding: 28px 0 66px; }
+        .eyebrow { display: inline-flex; align-items: center; gap: 8px; margin-bottom: 20px; padding: 8px 12px; border-radius: 999px; background: var(--coinw-purple-soft); color: var(--coinw-purple); font-size: 13px; font-weight: 800; white-space: nowrap; }
+        .hero-text h1 { max-width: 720px; font-size: 62px; font-weight: 900; color: var(--text-main); margin-bottom: 18px; letter-spacing: -1px; line-height: 1.08; text-wrap: balance; word-break: keep-all; }
+        .hero-text p { max-width: 560px; font-size: 18px; color: var(--text-sub); margin-bottom: 28px; font-weight: 500; line-height: 1.58; text-wrap: pretty; }
+        .hero-actions { display: flex; align-items: center; gap: 14px; margin-bottom: 28px; flex-wrap: wrap; }
+        .primary-link, .secondary-link { display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 46px; padding: 0 18px; border-radius: 12px; font-weight: 800; text-decoration: none; white-space: nowrap; }
+        .primary-link { background: var(--coinw-purple); color: #FFFFFF; box-shadow: 0 18px 34px rgba(94, 36, 255, 0.22); }
+        .secondary-link { color: var(--coinw-purple); border: 1px solid rgba(94, 36, 255, 0.2); background: #FFFFFF; }
+        .data-stats { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; max-width: 660px; }
+        .stat-item { padding: 18px; border: 1px solid var(--border); border-radius: 16px; background: rgba(255, 255, 255, 0.72); }
+        .stat-item span:first-child { display: block; margin-bottom: 6px; font-size: 13px; font-weight: 700; color: var(--text-sub); }
+        .val-animate { display: block; font-weight: 900; font-size: 24px; color: var(--coinw-purple); word-break: break-word; }
 
-        .stat-item { font-size: 16px; font-weight: 600; color: var(--text-sub); margin-bottom: 12px; }
-        .val-animate { display: inline-block; margin-left: 10px; font-weight: 800; font-size: 26px; color: var(--coinw-purple); }
+        .floating-reg-card { background: var(--surface); padding: 28px; border-radius: 20px; box-shadow: 0 30px 70px rgba(20, 23, 31, 0.1); border: 1px solid var(--border); }
+        .floating-reg-card h2 { font-size: 23px; margin-bottom: 6px; font-weight: 900; text-align: center; text-wrap: balance; word-break: keep-all; }
+        .card-subtitle { text-align: center; font-size: 13px; color: var(--text-sub); margin-bottom: 20px; white-space: nowrap; }
+        .input-group { position: relative; margin-bottom: 14px; }
+        .input-group label { display: block; margin-bottom: 7px; color: var(--text-main); font-size: 13px; font-weight: 800; white-space: nowrap; }
+        .input-field { position: relative; }
+        .input-field i { position: absolute; left: 16px; top: 50%; transform: translateY(-50%); color: #B7BDC6; }
+        .input-field input { width: 100%; padding: 15px 16px 15px 46px; border-radius: 12px; border: 1px solid var(--border); outline: none; background: #F8F9FA; font-size: 15px; transition: border-color 0.2s, background 0.2s; }
+        .input-field input:focus { border-color: var(--coinw-purple); background: #FFFFFF; }
+        .terms-row { display: flex; align-items: flex-start; gap: 9px; margin: 8px 0 18px; color: var(--text-sub); font-size: 12px; }
+        .terms-row input { margin-top: 3px; }
+        .reg-btn { width: 100%; background: var(--coinw-purple); color: white; border: none; padding: 16px; border-radius: 12px; font-weight: 900; font-size: 17px; cursor: pointer; transition: background 0.2s, transform 0.2s; white-space: nowrap; }
+        .reg-btn:hover { background: var(--coinw-purple-hover); transform: translateY(-1px); }
+        .proof-line { text-align: center; font-size: 12px; color: var(--text-sub); margin-top: 14px; white-space: nowrap; }
+        .proof-line i { color: var(--green); margin-right: 5px; }
+        .form-message { min-height: 20px; margin-top: 10px; text-align: center; font-size: 12px; color: var(--red); }
 
-        /* --- Register Card --- */
-        .floating-reg-card {
-            flex: 0.8; background: #FFFFFF; padding: 40px; border-radius: 32px;
-            box-shadow: 0 40px 80px rgba(94, 36, 255, 0.12); border: 1px solid var(--border);
-        }
-        .floating-reg-card h3 { font-size: 24px; margin-bottom: 24px; font-weight: 800; text-align: center; }
-        .input-group { position: relative; margin-bottom: 16px; }
-        .input-group i { position: absolute; left: 18px; top: 18px; color: #B7BDC6; }
-        .input-group input { 
-            width: 100%; padding: 16px 16px 16px 50px; border-radius: 12px; 
-            border: 1px solid var(--border); outline: none; background: #F8F9FA; font-size: 15px; 
-        }
-        .reg-btn { 
-            width: 100%; background: var(--coinw-purple); color: white; border: none; 
-            padding: 18px; border-radius: 12px; font-weight: 800; font-size: 18px; 
-            cursor: pointer; transition: 0.3s; 
-        }
-        .reg-btn:hover { background: var(--coinw-purple-hover); }
+        .white-panel { background: var(--surface); border-radius: 18px; border: 1px solid var(--border); margin-bottom: 42px; box-shadow: 0 8px 24px rgba(20, 23, 31, 0.04); overflow: hidden; }
+        .section-title { display: flex; align-items: flex-end; justify-content: space-between; gap: 18px; margin-bottom: 18px; }
+        .section-title h2 { font-weight: 900; font-size: 28px; color: var(--text-main); text-wrap: balance; word-break: keep-all; }
+        .section-title p { max-width: 500px; color: var(--text-sub); font-size: 14px; text-align: right; text-wrap: pretty; }
+        .value-panel { padding: 28px; }
+        .value-panel h2 { display: flex; align-items: center; gap: 10px; font-size: 22px; color: var(--coinw-purple); margin-bottom: 22px; text-wrap: balance; word-break: keep-all; }
+        .compare-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+        .compare-card { padding: 22px; border-radius: 16px; border: 1px solid var(--border); background: #FBFBFF; }
+        .compare-card.highlight { border-color: rgba(94, 36, 255, 0.4); background: var(--coinw-purple-soft); }
+        .compare-card h3 { font-size: 18px; margin-bottom: 16px; }
+        .compare-item { margin-top: 14px; }
+        .compare-item b { display: block; margin-bottom: 4px; }
+        .compare-item p { color: var(--text-sub); font-size: 14px; }
 
-        /* --- Panel Style --- */
-        .white-panel {
-            background: #FFFFFF; border-radius: 24px; border: 1px solid var(--border);
-            margin-bottom: 50px; box-shadow: 0 4px 20px rgba(0,0,0,0.03); overflow: hidden;
-        }
-
-        .accordion-header { padding: 24px 30px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; }
-        .accordion-header h3 { font-size: 20px; font-weight: 800; color: var(--coinw-purple); display: flex; align-items: center; gap: 12px; }
-        .accordion-content { max-height: 0; overflow: hidden; transition: max-height 0.4s ease; }
-        .accordion-content.open { max-height: 1200px; padding: 0 30px 40px 30px; }
-        
-        .compare-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
-        .compare-card { padding: 24px; border-radius: 20px; border: 1px solid var(--border); background: #FBFBFF; }
-        .compare-card.highlight { border-color: var(--coinw-purple); background: var(--coinw-purple-soft); }
-
-        /* --- Trader List --- */
+        .radar-meta { display: flex; justify-content: space-between; gap: 14px; align-items: center; margin-bottom: 14px; color: var(--text-sub); font-size: 13px; }
+        .radar-meta strong { color: var(--text-main); }
         .list-container { overflow-x: auto; }
-        .list-header, .trader-row { display: grid; grid-template-columns: 320px 140px 140px 100px 100px 140px 160px; padding: 20px 24px; align-items: center; min-width: 1120px; }
-        .list-header { background: #F8F9FA; color: var(--text-sub); font-size: 12px; font-weight: 700; border-bottom: 1px solid var(--border); }
-        .trader-row { border-bottom: 1px solid var(--border); transition: 0.2s; }
+        .list-header, .trader-row { display: grid; grid-template-columns: 300px 130px 130px 90px 110px 120px 138px; padding: 18px 22px; align-items: center; min-width: 1018px; gap: 10px; }
+        .list-header { background: var(--soft-surface); color: var(--text-sub); font-size: 12px; font-weight: 800; border-bottom: 1px solid var(--border); }
+        .list-header > div { white-space: nowrap; }
+        .trader-row { border-bottom: 1px solid var(--border); transition: background 0.2s; }
         .trader-row:hover { background: #FBFBFF; }
-        
-        .rank-num { width: 30px; font-weight: 800; color: #B7BDC6; text-align: center; }
-        .avatar { width: 44px; height: 44px; border-radius: 50%; border: 1px solid var(--border); }
+        .trader-row:last-child { border-bottom: none; }
+        .trader-main { display: flex; align-items: center; gap: 13px; }
+        .rank-num { width: 30px; font-weight: 900; color: #8A93A3; text-align: center; }
+        .avatar { width: 44px; height: 44px; border-radius: 50%; border: 1px solid var(--border); background: #FFFFFF; }
         .info-text b { display: block; font-size: 15px; color: var(--text-main); }
-        .info-text span { font-size: 11px; color: var(--coinw-purple); font-weight: 600; }
-        
-        .val-pnl { font-weight: 700; font-size: 14px; }
+        .info-text span { font-size: 11px; color: var(--coinw-purple); font-weight: 700; }
+        .val-pnl { font-weight: 800; font-size: 14px; }
         .up { color: var(--green); }
         .down { color: var(--red); }
-        
-        .coin-stack img { width: 22px; height: 22px; border-radius: 50%; border: 1.5px solid #fff; margin-left: -8px; }
-        .btn-follow { background: var(--coinw-purple); color: white; border: none; padding: 8px 16px; border-radius: 8px; font-weight: 700; cursor: pointer; }
+        .coin-stack { display: flex; align-items: center; padding-left: 8px; }
+        .coin-stack img { width: 22px; height: 22px; border-radius: 50%; border: 1.5px solid #fff; margin-left: -8px; background: #FFFFFF; }
+        .btn-follow { background: var(--coinw-purple); color: white; border: none; padding: 9px 14px; border-radius: 10px; font-weight: 800; cursor: pointer; white-space: nowrap; }
 
-        .trust-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 30px; margin-top: 60px; text-align: center; }
-        .trust-item i { font-size: 32px; color: var(--coinw-purple); margin-bottom: 16px; }
+        .trust-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px; margin-top: 40px; }
+        .trust-item { padding: 22px 18px; border: 1px solid var(--border); border-radius: 16px; background: rgba(255, 255, 255, 0.74); text-align: center; }
+        .trust-item i { font-size: 28px; color: var(--coinw-purple); margin-bottom: 12px; }
+        .trust-item h3 { font-size: 16px; margin-bottom: 6px; white-space: nowrap; }
+        .trust-item p { color: var(--text-sub); font-size: 13px; text-wrap: pretty; }
+        .site-footer { margin-top: 28px; color: var(--text-sub); font-size: 12px; text-align: center; }
 
         .data-update { animation: pulse 0.5s ease-out; }
-        @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.05); } 100% { transform: scale(1); } }
+        @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.03); } 100% { transform: scale(1); } }
 
-        @media (max-width: 900px) {
-            .hero-section { flex-direction: column; text-align: center; }
-            .trust-grid { grid-template-columns: 1fr 1fr; }
+        @media (max-width: 980px) {
+            .hero-section { grid-template-columns: 1fr; gap: 32px; padding-bottom: 42px; }
+            .floating-reg-card { max-width: 560px; width: 100%; margin: 0 auto; }
+            .section-title { align-items: flex-start; flex-direction: column; }
+            .section-title p { text-align: left; }
+        }
+
+        @media (max-width: 720px) {
+            .main-wrapper { padding: 16px 14px 34px; }
+            .site-header { padding-bottom: 24px; }
+            .header-note { display: none; }
+            .hero-text h1 { font-size: 42px; letter-spacing: 0; }
+            .hero-text p { font-size: 16px; line-height: 1.58; }
+            .hero-actions { align-items: stretch; flex-direction: column; }
+            .primary-link, .secondary-link { width: 100%; }
+            .data-stats, .compare-grid, .trust-grid { grid-template-columns: 1fr; }
+            .floating-reg-card { padding: 22px; border-radius: 18px; }
+            .proof-line { white-space: normal; }
+            .section-title h2 { font-size: 24px; }
+            .radar-meta { align-items: flex-start; flex-direction: column; }
+            .list-container { overflow-x: visible; background: transparent; border: 0; box-shadow: none; }
+            .list-header { display: none; }
+            .trader-row { min-width: 0; display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 12px; padding: 16px; border: 1px solid var(--border); border-radius: 16px; background: #FFFFFF; }
+            .trader-main { grid-column: 1 / -1; }
+            .trader-row > div:nth-child(7) { text-align: left !important; }
+            .btn-follow { width: 100%; }
+            .trader-row > div::before { content: attr(data-label); display: block; margin-bottom: 4px; color: var(--text-sub); font-size: 11px; font-weight: 800; }
+            .trader-row > div:nth-child(7) { grid-column: 1 / -1; }
         }
     </style>
 </head>
@@ -117,104 +164,465 @@
 
 <div class="main-wrapper">
     <header class="site-header">
-        <div class="logo"><img src="https://cdn.yumltd.com/static/_home/_nuxt/cw-logo-light.BGAdSA2R.svg" alt="CoinW"></div>
+        <div class="logo"><img src="https://cdn.yumltd.com/static/_home/_nuxt/cw-logo-light.BGAdSA2R.svg" alt="CoinW" width="126" height="32"></div>
+        <div class="header-actions">
+            <div class="header-note" data-i18n="headerNote">链上钱包追踪 · 一键跟单</div>
+            <label class="language-switch" for="language-select" aria-label="Language">
+                <i class="fas fa-globe" aria-hidden="true"></i>
+                <select id="language-select">
+                    <option value="zh-CN">简中</option>
+                    <option value="en">English</option>
+                    <option value="zh-TW">繁中</option>
+                    <option value="ja">日本語</option>
+                </select>
+            </label>
+        </div>
     </header>
 
-    <section class="hero-section">
+    <section class="hero-section" aria-labelledby="hero-title">
         <div class="hero-text">
-            <h1>一键跟单<br>坐享收益</h1>
-            <p>实时同步顶级交易员操作，让盈利变得简单。</p>
-            <div class="data-stats">
-                <div class="stat-item">累计跟单人数 <span id="people-count" class="val-animate">102,998</span></div>
-                <div class="stat-item">累计跟单收益 <span id="profit-count" class="val-animate">$76,322,938.51 USDT</span></div>
+            <div class="eyebrow"><i class="fas fa-wave-square" aria-hidden="true"></i> <span data-i18n="eyebrow">聪明钱实时雷达</span></div>
+            <h1 id="hero-title" data-i18n="heroTitle">跟随链上聪明钱<br>一键复制交易策略</h1>
+            <p data-i18n="heroBody">实时追踪优秀交易地址，自动同步交易动作。</p>
+            <div class="hero-actions">
+                <a class="primary-link" href="#register"><i class="fas fa-user-plus" aria-hidden="true"></i> <span data-i18n="ctaStart">开启跟单</span></a>
+                <a class="secondary-link" href="#smart-money-radar"><i class="fas fa-chart-line" aria-hidden="true"></i> <span data-i18n="ctaRadar">查看榜单</span></a>
+            </div>
+            <div class="data-stats" aria-label="平台跟单数据">
+                <div class="stat-item"><span data-i18n="statUsers">跟单人数</span><strong id="people-count" class="val-animate">102,998</strong></div>
+                <div class="stat-item"><span data-i18n="statProfit">跟单收益</span><strong id="profit-count" class="val-animate">$76,322,938.51 USDT</strong></div>
             </div>
         </div>
 
-        <div class="floating-reg-card">
-            <h3>立即开启聪明钱跟单</h3>
-            <div class="input-group"><i class="fas fa-envelope"></i><input type="email" placeholder="邮箱地址"></div>
-            <div class="input-group"><i class="fas fa-lock"></i><input type="password" placeholder="设置密码"></div>
-            <button class="reg-btn">立即注册</button>
-            <p style="text-align:center; font-size:12px; color:var(--text-sub); margin-top:15px;"><i class="fas fa-check-circle" style="color:var(--green)"></i> 100% 准备金保障</p>
+        <form class="floating-reg-card" id="register" novalidate>
+            <h2 data-i18n="formTitle">开启跟单</h2>
+            <p class="card-subtitle" data-i18n="formSubtitle">一键跟单，轻松把握盈利机会</p>
+            <div class="input-group">
+                <label for="email" data-i18n="emailLabel">邮箱地址</label>
+                <div class="input-field"><i class="fas fa-envelope" aria-hidden="true"></i><input id="email" name="email" type="email" autocomplete="email" placeholder="name@example.com" required></div>
+            </div>
+            <div class="input-group">
+                <label for="password" data-i18n="passwordLabel">设置密码</label>
+                <div class="input-field"><i class="fas fa-lock" aria-hidden="true"></i><input id="password" name="password" type="password" autocomplete="new-password" minlength="8" placeholder="至少 8 位字符" data-i18n-placeholder="passwordPlaceholder" required></div>
+            </div>
+            <label class="terms-row"><input id="terms" type="checkbox" required> <span data-i18n="terms">我同意服务协议与隐私政策。</span></label>
+            <button class="reg-btn" type="submit" data-i18n="registerBtn">立即注册</button>
+            <p class="proof-line"><i class="fas fa-check-circle" aria-hidden="true"></i> <span data-i18n="proofLine">100% 准备金 · 自定义止盈止损</span></p>
+            <div class="form-message" id="form-message" role="status" aria-live="polite"></div>
+        </form>
+    </section>
+
+    <section class="white-panel value-panel" aria-labelledby="why-title">
+        <h2 id="why-title"><i class="fas fa-shield-halved" aria-hidden="true"></i> <span data-i18n="whyTitle">为什么选择“聪明钱”跟单？</span></h2>
+        <div class="compare-grid">
+            <div class="compare-card highlight">
+                <h3 data-i18n="smartCopyTitle">聪明钱跟单</h3>
+                <div class="compare-item"><b data-i18n="smartPoint1Title">数据源更广</b><p data-i18n="smartPoint1Body">覆盖巨鲸、机构钱包和高胜率地址。</p></div>
+                <div class="compare-item"><b data-i18n="smartPoint2Title">策略维度更完整</b><p data-i18n="smartPoint2Body">查看收益、胜率、回撤和活跃度。</p></div>
+                <div class="compare-item"><b data-i18n="smartPoint3Title">0 分润机制</b><p data-i18n="smartPoint3Body">不抽取盈利分成，自主设置跟单参数。</p></div>
+            </div>
+            <div class="compare-card">
+                <h3 data-i18n="normalCopyTitle">普通合约跟单</h3>
+                <div class="compare-item"><b data-i18n="normalPoint1Title">数据范围有限</b><p data-i18n="normalPoint1Body">多限于平台内交易员，链上覆盖较少。</p></div>
+                <div class="compare-item"><b data-i18n="normalPoint2Title">筛选依据较少</b><p data-i18n="normalPoint2Body">容易忽略回撤、仓位波动和稳定性。</p></div>
+                <div class="compare-item"><b data-i18n="normalPoint3Title">可能存在分润</b><p data-i18n="normalPoint3Body">部分策略需要分润，长期成本更高。</p></div>
+            </div>
         </div>
     </section>
 
-    <div class="white-panel">
-        <div class="accordion-header" onclick="document.getElementById('acc-content').classList.toggle('open')">
-            <h3><i class="fas fa-shield-halved"></i> 为什么选择“聪明钱”跟单？</h3>
-            <i class="fas fa-chevron-down" style="color: var(--coinw-purple)"></i>
+    <section id="smart-money-radar" aria-labelledby="radar-title">
+        <div class="section-title">
+            <h2 id="radar-title" data-i18n="radarTitle">顶级“聪明钱”实时雷达</h2>
+            <p data-i18n="radarSubtitle">按近 30 天收益、胜率、回撤和活跃度综合排序。</p>
         </div>
-        <div class="accordion-content" id="acc-content">
-            <div class="compare-grid">
-                <div class="compare-card highlight">
-                    <h4>聪明钱跟单</h4>
-                    <div class="compare-item"><b>数据广度</b><p>实时追踪全链巨鲸、KOL钱包地址，数据源更广。</p></div>
-                    <div class="compare-item"><b>0 分润机制</b><p>完全零手续费抽成，100%收益归用户所有。</p></div>
-                </div>
-                <div class="compare-card">
-                    <h4>普通合约跟单</h4>
-                    <div class="compare-item"><b>数据受限</b><p>仅限平台内入驻交易员，数据源单一。</p></div>
-                    <div class="compare-item"><b>存在分润</b><p>需支付10%-15%盈利分成。</p></div>
-                </div>
+        <div class="radar-meta">
+            <span data-i18n="dataScope">口径：近 30 天已实现 PnL · 合约与链上地址</span>
+            <span><span data-i18n="lastUpdated">最近更新：</span><strong id="last-updated">--:--:--</strong></span>
+        </div>
+        <div class="white-panel list-container" id="trader-list">
+            <div class="list-header">
+                <div data-i18n="colTrader">交易员</div><div data-i18n="colPnl">收益额</div><div data-i18n="colTrend">PnL走势</div><div data-i18n="colWin">胜率</div><div data-i18n="colDrawdown">最大回撤</div><div data-i18n="colCoins">币种偏好</div><div style="text-align:right;" data-i18n="colAction">操作</div>
             </div>
         </div>
+    </section>
+
+    <div class="trust-grid" aria-label="平台保障">
+        <div class="trust-item"><i class="fas fa-vault" aria-hidden="true"></i><h3 data-i18n="trust1Title">100% 准备金</h3><p data-i18n="trust1Body">公开储备证明，资产更透明。</p></div>
+        <div class="trust-item"><i class="fas fa-file-shield" aria-hidden="true"></i><h3 data-i18n="trust2Title">合规运营</h3><p data-i18n="trust2Body">完善账户安全与运营流程。</p></div>
+        <div class="trust-item"><i class="fas fa-sliders" aria-hidden="true"></i><h3 data-i18n="trust3Title">自主设置</h3><p data-i18n="trust3Body">设置止盈、止损和跟单额度。</p></div>
+        <div class="trust-item"><i class="fas fa-headset" aria-hidden="true"></i><h3 data-i18n="trust4Title">24/7 支持</h3><p data-i18n="trust4Body">快速响应账户与跟单问题。</p></div>
     </div>
 
-    <h2 style="margin-bottom:24px; font-weight:800; font-size:28px; color: var(--coinw-purple);">顶级“聪明钱”实时雷达 (TOP 10)</h2>
-    <div class="white-panel list-container" id="trader-list">
-        <div class="list-header">
-            <div>交易员</div><div>收益额</div><div>PnL走势 </div><div>胜率</div><div>交易笔数</div><div>币种偏好</div><div style="text-align:right;">操作</div>
-        </div>
-    </div>
-
-    <div class="trust-grid">
-        <div class="trust-item"><i class="fas fa-vault"></i><h4>100% 准备金</h4></div>
-        <div class="trust-item"><i class="fas fa-file-shield"></i><h4>合规运营</h4></div>
-        <div class="trust-item"><i class="fas fa-user-shield"></i><h4>安全保障</h4></div>
-        <div class="trust-item"><i class="fas fa-headset"></i><h4>24/7 支持</h4></div>
-    </div>
+    <footer class="site-footer" data-i18n="footer">CoinW 聪明钱跟单 · 服务协议 · 隐私政策</footer>
 </div>
 
 <script>
-    // 动态数字
-    let pNum = 102998; let pProfit = 76322938.51;
+    let pNum = 102998;
+    let pProfit = 76322938.51;
+    let currentLang = localStorage.getItem('coinw-lp-lang') || 'zh-CN';
+
+    const translations = {
+        'zh-CN': {
+            htmlLang: 'zh-CN',
+            title: 'CoinW · 链上聪明钱智能跟单',
+            description: 'CoinW 聪明钱跟单雷达，追踪链上高价值钱包与交易员表现，支持一键跟单、策略筛选和透明数据口径。',
+            headerNote: '链上钱包追踪 · 一键跟单',
+            eyebrow: '聪明钱实时雷达',
+            heroTitle: '跟随链上聪明钱<br>一键复制交易策略',
+            heroBody: '实时追踪优秀交易地址，自动同步交易动作。',
+            ctaStart: '开启跟单',
+            ctaRadar: '查看榜单',
+            statUsers: '跟单人数',
+            statProfit: '跟单收益',
+            formTitle: '开启聪明钱跟单',
+            formSubtitle: '一键跟单，轻松把握盈利机会',
+            emailLabel: '邮箱地址',
+            passwordLabel: '设置密码',
+            passwordPlaceholder: '至少 8 位字符',
+            terms: '我同意服务协议与隐私政策。',
+            registerBtn: '立即注册',
+            proofLine: '100% 准备金 · 自定义止盈止损',
+            whyTitle: '为什么选择“聪明钱”跟单？',
+            smartCopyTitle: '聪明钱跟单',
+            smartPoint1Title: '数据源更广',
+            smartPoint1Body: '覆盖巨鲸、机构钱包和高胜率地址。',
+            smartPoint2Title: '策略维度更完整',
+            smartPoint2Body: '查看收益、胜率、回撤和活跃度。',
+            smartPoint3Title: '0 分润机制',
+            smartPoint3Body: '不抽取盈利分成，自主设置跟单参数。',
+            normalCopyTitle: '普通合约跟单',
+            normalPoint1Title: '数据范围有限',
+            normalPoint1Body: '多限于平台内交易员，链上覆盖较少。',
+            normalPoint2Title: '筛选依据较少',
+            normalPoint2Body: '容易忽略回撤、仓位波动和稳定性。',
+            normalPoint3Title: '可能存在分润',
+            normalPoint3Body: '部分策略需要分润，长期成本更高。',
+            radarTitle: '顶级“聪明钱”实时雷达',
+            radarSubtitle: '按近 30 天收益、胜率、回撤和活跃度综合排序。',
+            dataScope: '口径：近 30 天已实现 PnL · 合约与链上地址',
+            lastUpdated: '最近更新：',
+            colTrader: '交易员',
+            colPnl: '收益额',
+            colTrend: 'PnL走势',
+            colWin: '胜率',
+            colDrawdown: '最大回撤',
+            colCoins: '币种偏好',
+            colAction: '操作',
+            trendUp: '上升',
+            trendDown: '下降',
+            followBtn: '查看跟单',
+            avatarAlt: '头像',
+            trust1Title: '100% 准备金',
+            trust1Body: '公开储备证明，资产更透明。',
+            trust2Title: '合规运营',
+            trust2Body: '完善账户安全与运营流程。',
+            trust3Title: '自主设置',
+            trust3Body: '设置止盈、止损和跟单额度。',
+            trust4Title: '24/7 支持',
+            trust4Body: '快速响应账户与跟单问题。',
+            footer: 'CoinW 聪明钱跟单 · 服务协议 · 隐私政策',
+            invalidMessage: '请填写有效邮箱、至少 8 位密码，并同意服务协议。',
+            successMessage: '信息已记录，下一步可接入真实注册接口。',
+            traderBadges: ['15h前 开多 ETH', '11h前 开空 ZEC', '实时监控中', '机构级账户', '高频交易', '波段策略', '趋势跟踪', '极高胜率', '精准买入', '稳健风格']
+        },
+        en: {
+            htmlLang: 'en',
+            title: 'CoinW · On-chain Smart Money Copy Trading',
+            description: 'CoinW Smart Money Radar tracks high-value wallets and trader performance with one-tap copy trading, strategy screening, and transparent data definitions.',
+            headerNote: 'On-chain wallet tracking · One-tap copy trading',
+            eyebrow: 'Smart Money Live Radar',
+            heroTitle: 'Copy on-chain smart money<br>in one tap',
+            heroBody: 'Track top trading addresses and sync trades automatically.',
+            ctaStart: 'Start Copying',
+            ctaRadar: 'View Radar',
+            statUsers: 'Copy traders',
+            statProfit: 'Copy profit',
+            formTitle: 'Start Copy Trading',
+            formSubtitle: 'Copy in one tap. Capture profit opportunities.',
+            emailLabel: 'Email',
+            passwordLabel: 'Password',
+            passwordPlaceholder: 'At least 8 characters',
+            terms: 'I agree to the Terms and Privacy Policy.',
+            registerBtn: 'Register Now',
+            proofLine: '100% reserves · Custom TP/SL',
+            whyTitle: 'Why choose Smart Money copy trading?',
+            smartCopyTitle: 'Smart Money Copy',
+            smartPoint1Title: 'Broader data sources',
+            smartPoint1Body: 'Track whales, institutions, and high-win-rate addresses.',
+            smartPoint2Title: 'Richer strategy signals',
+            smartPoint2Body: 'Review profit, win rate, drawdown, and activity.',
+            smartPoint3Title: '0 profit share',
+            smartPoint3Body: 'No profit share. Set copy parameters freely.',
+            normalCopyTitle: 'Standard Futures Copy',
+            normalPoint1Title: 'Limited coverage',
+            normalPoint1Body: 'Mostly limited to listed platform traders.',
+            normalPoint2Title: 'Fewer screening signals',
+            normalPoint2Body: 'Profit and win rate can hide volatility.',
+            normalPoint3Title: 'Possible profit share',
+            normalPoint3Body: 'Some strategies charge profit sharing.',
+            radarTitle: 'Top Smart Money Live Radar',
+            radarSubtitle: 'Ranked by 30-day profit, win rate, drawdown, and activity.',
+            dataScope: 'Scope: 30-day PnL · Futures and on-chain addresses',
+            lastUpdated: 'Last updated: ',
+            colTrader: 'Trader',
+            colPnl: 'Profit',
+            colTrend: 'PnL Trend',
+            colWin: 'Win Rate',
+            colDrawdown: 'Drawdown',
+            colCoins: 'Coins',
+            colAction: 'Action',
+            trendUp: 'upward',
+            trendDown: 'downward',
+            followBtn: 'View Copy',
+            avatarAlt: 'avatar',
+            trust1Title: '100% Reserves',
+            trust1Body: 'Public reserve proof for transparency.',
+            trust2Title: 'Compliant Ops',
+            trust2Body: 'Account security and operating process.',
+            trust3Title: 'Custom Controls',
+            trust3Body: 'Set TP/SL and copy allocation.',
+            trust4Title: '24/7 Support',
+            trust4Body: 'Fast help for account and copy issues.',
+            footer: 'CoinW Smart Money Copy Trading · Terms · Privacy Policy',
+            invalidMessage: 'Enter email, 8+ character password, and agree to the terms.',
+            successMessage: 'Saved. Registration API can be connected next.',
+            traderBadges: ['Long ETH 15h ago', 'Short ZEC 11h ago', 'Live monitoring', 'Institutional account', 'High-frequency trading', 'Swing strategy', 'Trend following', 'Very high win rate', 'Precise entries', 'Steady style']
+        },
+        'zh-TW': {
+            htmlLang: 'zh-Hant',
+            title: 'CoinW · 鏈上聰明錢智能跟單',
+            description: 'CoinW 聰明錢跟單雷達，追蹤鏈上高價值錢包與交易員表現，支援一鍵跟單、策略篩選和透明資料口徑。',
+            headerNote: '鏈上錢包追蹤 · 一鍵跟單',
+            eyebrow: '聰明錢即時雷達',
+            heroTitle: '跟隨鏈上聰明錢<br>一鍵複製交易策略',
+            heroBody: '即時追蹤優秀交易地址，自動同步交易動作。',
+            ctaStart: '開啟跟單',
+            ctaRadar: '查看榜單',
+            statUsers: '跟單人數',
+            statProfit: '跟單收益',
+            formTitle: '開啟聰明錢跟單',
+            formSubtitle: '一鍵跟單，輕鬆把握盈利機會',
+            emailLabel: '電子郵件',
+            passwordLabel: '設定密碼',
+            passwordPlaceholder: '至少 8 位字元',
+            terms: '我同意服務協議與隱私政策。',
+            registerBtn: '立即註冊',
+            proofLine: '100% 準備金 · 自訂止盈止損',
+            whyTitle: '為什麼選擇「聰明錢」跟單？',
+            smartCopyTitle: '聰明錢跟單',
+            smartPoint1Title: '資料源更廣',
+            smartPoint1Body: '覆蓋巨鯨、機構錢包和高勝率地址。',
+            smartPoint2Title: '策略維度更完整',
+            smartPoint2Body: '查看收益、勝率、回撤和活躍度。',
+            smartPoint3Title: '0 分潤機制',
+            smartPoint3Body: '不抽取盈利分成，自主設定跟單參數。',
+            normalCopyTitle: '普通合約跟單',
+            normalPoint1Title: '資料範圍有限',
+            normalPoint1Body: '多限於平台內交易員，鏈上覆蓋較少。',
+            normalPoint2Title: '篩選依據較少',
+            normalPoint2Body: '容易忽略回撤、倉位波動和穩定性。',
+            normalPoint3Title: '可能存在分潤',
+            normalPoint3Body: '部分策略需要分潤，長期成本更高。',
+            radarTitle: '頂級「聰明錢」即時雷達',
+            radarSubtitle: '按近 30 天收益、勝率、回撤和活躍度綜合排序。',
+            dataScope: '口徑：近 30 天已實現 PnL · 合約與鏈上地址',
+            lastUpdated: '最近更新：',
+            colTrader: '交易員',
+            colPnl: '收益額',
+            colTrend: 'PnL走勢',
+            colWin: '勝率',
+            colDrawdown: '最大回撤',
+            colCoins: '幣種偏好',
+            colAction: '操作',
+            trendUp: '上升',
+            trendDown: '下降',
+            followBtn: '查看跟單',
+            avatarAlt: '頭像',
+            trust1Title: '100% 準備金',
+            trust1Body: '公開儲備證明，資產更透明。',
+            trust2Title: '合規營運',
+            trust2Body: '完善帳戶安全與營運流程。',
+            trust3Title: '自主設定',
+            trust3Body: '設定止盈、止損和跟單額度。',
+            trust4Title: '24/7 支援',
+            trust4Body: '快速回應帳戶與跟單問題。',
+            footer: 'CoinW 聰明錢跟單 · 服務協議 · 隱私政策',
+            invalidMessage: '請填寫有效電子郵件、至少 8 位密碼，並同意服務協議。',
+            successMessage: '資訊已記錄，下一步可接入真實註冊介面。',
+            traderBadges: ['15h前 開多 ETH', '11h前 開空 ZEC', '即時監控中', '機構級帳戶', '高頻交易', '波段策略', '趨勢跟蹤', '極高勝率', '精準買入', '穩健風格']
+        },
+        ja: {
+            htmlLang: 'ja',
+            title: 'CoinW · オンチェーンスマートマネー自動コピー',
+            description: 'CoinW Smart Money Radar は、高価値ウォレットとトレーダー実績を追跡し、ワンタップコピー、戦略スクリーニング、透明なデータ基準を提供します。',
+            headerNote: 'オンチェーンウォレット追跡 · ワンタップコピー',
+            eyebrow: 'スマートマネー・ライブレーダー',
+            heroTitle: 'オンチェーン資金を追跡<br>ワンタップで戦略コピー',
+            heroBody: '優秀な取引アドレスを追跡し、取引を自動同期。',
+            ctaStart: 'コピーを開始',
+            ctaRadar: 'ランキングを見る',
+            statUsers: 'コピー人数',
+            statProfit: 'コピー収益',
+            formTitle: 'コピーを開始',
+            formSubtitle: 'ワンタップコピーで収益チャンスを逃さない。',
+            emailLabel: 'メールアドレス',
+            passwordLabel: 'パスワード',
+            passwordPlaceholder: '8文字以上',
+            terms: '利用規約とプライバシーポリシーに同意します。',
+            registerBtn: '今すぐ登録',
+            proofLine: '100% 準備金 · 利確/損切り設定',
+            whyTitle: 'なぜスマートマネーコピーを選ぶのか？',
+            smartCopyTitle: 'スマートマネーコピー',
+            smartPoint1Title: 'より広いデータソース',
+            smartPoint1Body: '大口、機関、高勝率アドレスを追跡。',
+            smartPoint2Title: 'より充実した戦略指標',
+            smartPoint2Body: '収益、勝率、DD、活動量を確認。',
+            smartPoint3Title: '利益シェア 0',
+            smartPoint3Body: '利益分配なし。コピー条件を自由に設定。',
+            normalCopyTitle: '通常の先物コピー',
+            normalPoint1Title: '対象データが限定的',
+            normalPoint1Body: '主に登録トレーダーのみを対象。',
+            normalPoint2Title: '判断材料が少ない',
+            normalPoint2Body: '収益と勝率だけでは変動を見落としやすい。',
+            normalPoint3Title: '利益分配が発生する場合',
+            normalPoint3Body: '一部の戦略では利益分配が必要となり、長期的なフォローコストが高くなります。',
+            radarTitle: 'スマートマネー・レーダー',
+            radarSubtitle: '直近30日の収益、勝率、ドローダウン、活動量でランキング。',
+            dataScope: '基準：直近30日の実現PnL · 先物とオンチェーンアドレス',
+            lastUpdated: '最終更新：',
+            colTrader: 'トレーダー',
+            colPnl: '収益',
+            colTrend: 'PnL推移',
+            colWin: '勝率',
+            colDrawdown: '最大DD',
+            colCoins: '銘柄',
+            colAction: '操作',
+            trendUp: '上昇',
+            trendDown: '下降',
+            followBtn: 'コピーを見る',
+            avatarAlt: 'アバター',
+            trust1Title: '100% 準備金',
+            trust1Body: '準備金証明で資産を透明化。',
+            trust2Title: 'コンプライアンス',
+            trust2Body: 'アカウント保護と運用体制。',
+            trust3Title: '自由な設定',
+            trust3Body: '利確、損切り、コピー金額を設定。',
+            trust4Title: '24/7 サポート',
+            trust4Body: 'アカウントとコピー問題に迅速対応。',
+            footer: 'CoinW スマートマネーコピー · 利用規約 · プライバシーポリシー',
+            invalidMessage: '有効なメール、8文字以上のパスワードを入力し、利用規約に同意してください。',
+            successMessage: '情報を保存しました。次に実際の登録APIへ接続できます。',
+            traderBadges: ['15時間前 ETHロング', '11時間前 ZECショート', 'ライブ監視中', '機関投資家アカウント', '高頻度取引', 'スイング戦略', 'トレンドフォロー', '非常に高い勝率', '精密なエントリー', '安定型']
+        }
+    };
+
     function updateStats() {
         pNum += Math.floor(Math.random() * 2) + 1;
         pProfit += (Math.random() * 15 + 5);
         document.getElementById('people-count').innerText = pNum.toLocaleString();
-        document.getElementById('profit-count').innerText = '$' + pProfit.toLocaleString('en-US', {minimumFractionDigits: 2}) + ' USDT';
+        document.getElementById('profit-count').innerText = '$' + pProfit.toLocaleString('en-US', { minimumFractionDigits: 2 }) + ' USDT';
     }
-    setInterval(updateStats, 2800);
 
-    // TOP 10 交易员数据
+    function updateClock() {
+        document.getElementById('last-updated').innerText = new Date().toLocaleTimeString(currentLang, { hour12: false });
+    }
+
+    const coinNames = {
+        'bitcoin-btc': 'BTC',
+        'ethereum-eth': 'ETH',
+        'bnb-bnb': 'BNB',
+        'solana-sol': 'SOL',
+        'tether-usdt': 'USDT',
+        'dogecoin-doge': 'DOGE'
+    };
+
     const traders = [
-        { name: "麻吉大哥", rank: "🥇", pnl: "-$2.29M", trend: "down", win: "85.18%", count: "7,209", coins: ["bitcoin-btc", "ethereum-eth"], badge: "15h前 开多 ETH" },
-        { name: "做空山寨哥", rank: "🥈", pnl: "+$9.07M", trend: "up", win: "74.72%", count: "28k", coins: ["bnb-bnb", "solana-sol"], badge: "11h前 开空 ZEC" },
-        { name: "Wintermute", rank: "🥉", pnl: "-$448.94K", trend: "down", win: "50.83%", count: "3M", coins: ["bitcoin-btc", "tether-usdt"], badge: "实时监控中" },
-        { name: "Mtrixport 鲸鱼", rank: "4", pnl: "+$19.09M", trend: "up", win: "100%", count: "32", coins: ["ethereum-eth"], badge: "机构级账户" },
-        { name: "链上HYPE多头", rank: "5", pnl: "+$17.81M", trend: "up", win: "48.2%", count: "216k", coins: ["dogecoin-doge"], badge: "高频交易" },
-        { name: "千万盈利巨鲸", rank: "6", pnl: "+$9.95M", trend: "up", win: "41.2%", count: "9k", coins: ["solana-sol"], badge: "波段大师" },
-        { name: "CL 策略专家", rank: "7", pnl: "+$1.39M", trend: "up", win: "66.4%", count: "1,896", coins: ["bitcoin-btc"], badge: "趋势跟踪" },
-        { name: "24h 盈利榜首", rank: "8", pnl: "+$1.28M", trend: "up", win: "97.2%", count: "5,025", coins: ["ethereum-eth"], badge: "极高胜率" },
-        { name: "波段收割机", rank: "9", pnl: "+$850.2K", trend: "up", win: "82.1%", count: "421", coins: ["solana-sol"], badge: "精准买入" },
-        { name: "趋势跟随者", rank: "10", pnl: "+$620.1K", trend: "up", win: "70%", count: "1k", coins: ["bitcoin-btc"], badge: "稳健风格" }
+        { name: '麻吉大哥', rank: '1', pnl: '-$2.29M', trend: 'down', win: '85.18%', drawdown: '18.6%', coins: ['bitcoin-btc', 'ethereum-eth'] },
+        { name: '做空山寨哥', rank: '2', pnl: '+$9.07M', trend: 'up', win: '74.72%', drawdown: '11.2%', coins: ['bnb-bnb', 'solana-sol'] },
+        { name: 'Wintermute', rank: '3', pnl: '-$448.94K', trend: 'down', win: '50.83%', drawdown: '6.9%', coins: ['bitcoin-btc', 'tether-usdt'] },
+        { name: 'Mtrixport 鲸鱼', rank: '4', pnl: '+$19.09M', trend: 'up', win: '100%', drawdown: '4.2%', coins: ['ethereum-eth'] },
+        { name: '链上HYPE多头', rank: '5', pnl: '+$17.81M', trend: 'up', win: '48.2%', drawdown: '22.4%', coins: ['dogecoin-doge'] },
+        { name: '千万盈利巨鲸', rank: '6', pnl: '+$9.95M', trend: 'up', win: '41.2%', drawdown: '14.8%', coins: ['solana-sol'] },
+        { name: 'CL 策略专家', rank: '7', pnl: '+$1.39M', trend: 'up', win: '66.4%', drawdown: '8.1%', coins: ['bitcoin-btc'] },
+        { name: '24h 盈利榜首', rank: '8', pnl: '+$1.28M', trend: 'up', win: '97.2%', drawdown: '5.4%', coins: ['ethereum-eth'] },
+        { name: '波段收割机', rank: '9', pnl: '+$850.2K', trend: 'up', win: '82.1%', drawdown: '9.7%', coins: ['solana-sol'] },
+        { name: '趋势跟随者', rank: '10', pnl: '+$620.1K', trend: 'up', win: '70%', drawdown: '6.1%', coins: ['bitcoin-btc'] }
     ];
 
     const listEl = document.getElementById('trader-list');
-    traders.forEach(t => {
-        const row = document.createElement('div');
-        row.className = 'trader-row';
-        const color = t.trend === 'up' ? 'var(--green)' : 'var(--red)';
-        row.innerHTML = `
-            <div style="display:flex; align-items:center; gap:14px;"><span class="rank-num">${t.rank}</span><img src="https://api.dicebear.com/7.x/avataaars/svg?seed=${t.name}" class="avatar"><div class="info-text"><b>${t.name}</b><span>⚡️ ${t.badge}</span></div></div>
-            <div class="val-pnl ${t.trend}">${t.pnl}</div>
-            <div class="pnl-chart"><svg viewBox="0 0 100 30" style="width:100px; height:30px;"><path d="M0,${t.trend=='up'?25:10} L20,15 L40,22 L60,12 L80,18 L100,${t.trend=='up'?5:25}" stroke="${color}" fill="none" stroke-width="2.5" stroke-linecap="round"/></svg></div>
-            <div class="val-pnl">${t.win}</div><div>${t.count}</div>
-            <div class="coin-stack">${t.coins.map(c => `<img src="https://cryptologos.cc/logos/${c}-logo.png">`).join('')}</div>
-            <div style="text-align:right;"><button class="btn-follow">立即跟单</button></div>
-        `;
-        listEl.appendChild(row);
+
+    function t(key) {
+        return translations[currentLang][key] || translations['zh-CN'][key] || key;
+    }
+
+    function updateDocumentMeta() {
+        document.documentElement.lang = t('htmlLang');
+        document.title = t('title');
+        document.querySelector('meta[name="description"]').setAttribute('content', t('description'));
+        document.querySelector('meta[property="og:title"]').setAttribute('content', t('title'));
+        document.querySelector('meta[property="og:description"]').setAttribute('content', t('description'));
+    }
+
+    function applyTranslations() {
+        updateDocumentMeta();
+        document.querySelectorAll('[data-i18n]').forEach((element) => {
+            element.innerHTML = t(element.dataset.i18n);
+        });
+        document.querySelectorAll('[data-i18n-placeholder]').forEach((element) => {
+            element.setAttribute('placeholder', t(element.dataset.i18nPlaceholder));
+        });
+        document.getElementById('language-select').value = currentLang;
+        renderTraders();
+        updateClock();
+    }
+
+    function renderTraders() {
+        listEl.querySelectorAll('.trader-row').forEach((row) => row.remove());
+        traders.forEach((trader, index) => {
+            const row = document.createElement('div');
+            row.className = 'trader-row';
+            const color = trader.trend === 'up' ? 'var(--green)' : 'var(--red)';
+            const trendText = trader.trend === 'up' ? t('trendUp') : t('trendDown');
+            const badge = translations[currentLang].traderBadges[index] || translations['zh-CN'].traderBadges[index];
+            const coinImages = trader.coins.map((coin) => `<img src="https://cryptologos.cc/logos/${coin}-logo.png" alt="${coinNames[coin] || coin}" width="22" height="22" loading="lazy">`).join('');
+
+            row.innerHTML = `
+                <div class="trader-main"><span class="rank-num">${trader.rank}</span><img src="https://api.dicebear.com/7.x/avataaars/svg?seed=${encodeURIComponent(trader.name)}" class="avatar" alt="${trader.name} ${t('avatarAlt')}" width="44" height="44" loading="lazy"><div class="info-text"><b>${trader.name}</b><span>${badge}</span></div></div>
+                <div class="val-pnl ${trader.trend}" data-label="${t('colPnl')}">${trader.pnl}</div>
+                <div class="pnl-chart" data-label="${t('colTrend')}"><svg viewBox="0 0 100 30" width="100" height="30" role="img" aria-label="${trader.name} PnL ${trendText}"><path d="M0,${trader.trend === 'up' ? 25 : 10} L20,15 L40,22 L60,12 L80,18 L100,${trader.trend === 'up' ? 5 : 25}" stroke="${color}" fill="none" stroke-width="2.5" stroke-linecap="round"/></svg></div>
+                <div class="val-pnl" data-label="${t('colWin')}">${trader.win}</div>
+                <div data-label="${t('colDrawdown')}">${trader.drawdown}</div>
+                <div class="coin-stack" data-label="${t('colCoins')}">${coinImages}</div>
+                <div style="text-align:right;" data-label="${t('colAction')}"><button class="btn-follow" type="button">${t('followBtn')}</button></div>
+            `;
+            listEl.appendChild(row);
+        });
+    }
+
+    document.getElementById('language-select').addEventListener('change', (event) => {
+        currentLang = event.target.value;
+        localStorage.setItem('coinw-lp-lang', currentLang);
+        document.getElementById('form-message').innerText = '';
+        applyTranslations();
     });
+
+    document.getElementById('register').addEventListener('submit', (event) => {
+        event.preventDefault();
+        const form = event.currentTarget;
+        const message = document.getElementById('form-message');
+        if (!form.checkValidity()) {
+            message.style.color = 'var(--red)';
+            message.innerText = t('invalidMessage');
+            form.reportValidity();
+            return;
+        }
+        message.style.color = 'var(--green)';
+        message.innerText = t('successMessage');
+    });
+
+    setInterval(updateStats, 2800);
+    setInterval(updateClock, 1000);
+    applyTranslations();
 </script>
 
 </body>
